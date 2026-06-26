@@ -1,0 +1,288 @@
+{%- comment -%}
+  New Product Carousel (Responsive & Bug-free)
+{%- endcomment -%}
+
+<style>
+/* --- AG Premium Carousel (Scroll Snap Nativo) --- */
+.ag-premium-section { padding: 40px 0; background: transparent; }
+.ag-carousel-track {
+  display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+  scroll-behavior: smooth; gap: 10px; padding-bottom: 10px; 
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none; scrollbar-width: none;
+}
+.ag-carousel-track::-webkit-scrollbar { display: none; }
+.ag-carousel-item {
+  scroll-snap-align: start; flex: 0 0 calc(25% - 10px); min-width: 0;
+}
+@media (max-width: 1200px) { .ag-carousel-item { flex: 0 0 calc(33.333% - 10px); } }
+@media (max-width: 768px) { .ag-carousel-item { flex: 0 0 calc(50% - 10px); } }
+@media (max-width: 480px) {
+  .ag-carousel-item { flex: 0 0 85%; }
+  .ag-carousel-track { padding-left: 10px; }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const sliders = document.querySelectorAll('.ag-carousel-track');
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  sliders.forEach(slider => {
+    slider.addEventListener('mousedown', (e) => {
+      isDown = true;
+      slider.style.cursor = 'grabbing';
+      slider.style.scrollSnapType = 'none'; // Disable snap while dragging
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+    });
+    slider.addEventListener('mouseleave', () => {
+      isDown = false;
+      slider.style.cursor = 'grab';
+      slider.style.scrollSnapType = 'x mandatory';
+    });
+    slider.addEventListener('mouseup', () => {
+      isDown = false;
+      slider.style.cursor = 'grab';
+      slider.style.scrollSnapType = 'x mandatory';
+    });
+    slider.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX) * 2; // scroll speed
+      slider.scrollLeft = scrollLeft - walk;
+    });
+    slider.style.cursor = 'grab';
+  });
+});
+</script>
+
+
+
+<div class="ag-premium-section" data-section-id="{{ section.id }}" style="width: 100%; {% if section.settings.margin != blank %}margin: {{ section.settings.margin }};{% endif %}">
+  <div class="ag-carousel-inner" style="width: 100%; padding: 0;">
+    
+    {% if section.settings.title != blank or section.settings.subtitle != blank %}
+    <div class="section-title text-center">
+      {% if section.settings.title != blank %}
+      <h2><span>{{ section.settings.title }}</span></h2>
+      {% endif %}
+      {% if section.settings.use_hr_small %}
+      <hr class="hr-small">
+      {% endif %}
+      {% if section.settings.subtitle != blank %}
+      <p>{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {% assign collection = collections[section.settings.id_collection] %}
+    {% assign desktop_slides = section.settings.sidetoshow | default: 5 %}
+    
+    <div class="g-slick-products" data-slick='{"infinite":true,"dots":false,"slidesToShow":6,"slidesToScroll":1,"autoplay":false,"arrows":true,"speed":600,"swipe":true,"draggable":true,"touchMove":true,"nextArrow":"<button type=\"button\" class=\"slick-next slick-arrow\"><i class=\"fa fa-angle-right\"></i></button>","prevArrow":"<button type=\"button\" class=\"slick-prev slick-arrow\"><i class=\"fa fa-angle-left\"></i></button>","responsive":[{"breakpoint":3000,"settings":{"slidesToShow":6,"slidesToScroll":1}},{"breakpoint":1600,"settings":{"slidesToShow":5,"slidesToScroll":1}},{"breakpoint":1200,"settings":{"slidesToShow":4,"slidesToScroll":1}},{"breakpoint":992,"settings":{"slidesToShow":3,"slidesToScroll":1}},{"breakpoint":768,"settings":{"slidesToShow":2.15,"slidesToScroll":1,"arrows":false}},{"breakpoint":480,"settings":{"slidesToShow":1.15,"slidesToScroll":1,"arrows":false}}]}'>
+      {% if collection.empty? %}
+        {% for i in (1..8) limit:section.settings.items_show %}
+          {% include 'no-products' %}
+        {% endfor %}
+      {% else %}
+        {% for product in collection.products limit:section.settings.items_show %}
+          {% include 'g_product_carousel' %}
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    {% if section.settings.view_all_products != blank %}
+    <div class="button-view-all-products text-center" style="margin-top: 30px;">
+      <a href="{{ section.settings.link_view_all_products | default: collection.url | default: '#' }}" class="btn">{{ section.settings.view_all_products }}</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Product Carousel Nuevo",
+    "class": "globo_product_carousel_new",
+    "presets": [
+      {
+        "name": "Product Carousel Nuevo",
+        "category": "Sections Products Home"
+      }
+    ],
+    "settings": [
+      {
+      "type": "select",
+      "id": "css_animations",
+      "label": "CSS Animation",
+      "options": [
+          { "value": "1", "label": "None" },
+          { "value": "2", "label": "fadeIn" },
+          { "value": "3", "label": "fadeInDown" },
+          { "value": "4", "label": "fadeInDownBig" },
+          { "value": "5", "label": "fadeInLeft" },
+          { "value": "6", "label": "fadeInLeftBig" },
+          { "value": "7", "label": "fadeInRight" },
+          { "value": "8", "label": "fadeInRightBig" },
+          { "value": "9", "label": "fadeInUp" },
+          { "value": "10", "label": "fadeInUpBig" }
+        ],
+        "default": "2"
+      },
+      {
+        "type": "select",
+        "id": "use_width",
+        "label": "Slideshow width",
+        "options": [
+          { "value": "1", "label": "Use full width" },
+          { "value": "2", "label": "Use padding" },
+          { "value": "3", "label": "Use container" }
+        ],
+        "default": "2"
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Sale Off"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_hr_small",
+        "label": "Use hr small",
+		"default": true
+      },
+      {
+        "type": "select",
+        "id": "heading_font_family",
+        "label": "Title font family",
+        "options": [
+          { "value": "1", "label": "Font family 1" },
+          { "value": "2", "label": "Font family 2" }
+        ],
+        "default": "1"
+      },
+      {
+        "type": "text",
+        "id": "title_font_size",
+        "label": "Title font size"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Sub title",
+        "default": "Our collection hover on a look you like to shop the items featured"
+      },
+      {
+        "type": "text",
+        "id": "view_all_products",
+        "label": "Text view products",
+        "default": "View all products"
+      },
+        {
+        "type": "url",
+        "id": "link_view_all_products",
+        "label": "Link view products"
+      },
+      {
+        "type":"collection",
+        "id":"id_collection",
+        "label":"Choose collection"
+      },
+      {
+        "type": "select",
+        "id": "items_show",
+        "label": "Number product to show",
+        "options": [
+          {
+            "value": "6",
+            "label": "6"
+          },
+          {
+            "value": "8",
+            "label": "8"
+          },
+          {
+            "value": "10",
+            "label": "10"
+          },
+          {
+            "value": "12",
+            "label": "12"
+          },
+          {
+            "value": "16",
+            "label": "16"
+          },
+          {
+            "value": "20",
+            "label": "20"
+          }
+        ],
+        "default": "8"
+      },
+      {
+       "type": "header",
+       "content": "Product Slider"
+      },
+      {
+        "type": "select",
+        "id": "sidetoshow",
+        "label": "Slides To Show",
+        "options": [
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          },
+          {
+            "value": "5",
+            "label": "5"
+          }
+        ],
+        "default": "4"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_center_mode",
+        "label": "Use center mode?",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "use_loop",
+        "label": "Use Infinite loop sliding?",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "use_autoplay",
+        "label": "Use autoplay?",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "use_dots",
+        "label": "Use dots?",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "use_arrow",
+        "label": "Use arrow?",
+        "default": false
+      }
+    ]
+  }
+{% endschema %}

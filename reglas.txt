@@ -1,0 +1,230 @@
+# REGLAS DEL PROYECTO PORTFOLIO_JAVA
+
+## Objetivo General
+
+Desarrollar y mantener exclusivamente el proyecto **portfolio_java**, utilizando como fuente de información los proyectos existentes dentro de la carpeta **proyectos**.
+
+El portfolio debe actuar como una presentación profesional de mis habilidades como desarrollador Java Backend, mostrando mis proyectos, tecnologías utilizadas, arquitectura, funcionalidades y conocimientos técnicos.
+
+---
+
+## Restricciones Obligatorias
+
+### Regla 1: No modificar proyectos originales
+
+Bajo ninguna circunstancia se puede modificar, renombrar, mover o eliminar ningún archivo dentro de la carpeta:
+
+/proyectos
+
+Los proyectos contenidos en dicha carpeta son únicamente fuente de información.
+
+Toda modificación debe realizarse exclusivamente dentro de:
+
+/portfolio_java
+
+---
+
+### Regla 2: Los proyectos son la fuente de verdad
+
+Toda la información mostrada en el portfolio debe obtenerse directamente de los proyectos existentes.
+
+No inventar:
+
+* Tecnologías
+* Funcionalidades
+* Arquitecturas
+* Dependencias
+* Características
+* Estadísticas
+* Métricas
+
+Si alguna información no puede obtenerse del proyecto, debe indicarse explícitamente o solicitarse.
+
+---
+
+### Regla 3: Análisis inicial obligatorio
+
+La primera vez que se ejecute el sistema debe realizar un análisis completo de todos los proyectos contenidos en la carpeta:
+
+/proyectos
+
+Durante dicho análisis se debe extraer y almacenar:
+
+#### Información general
+
+* Nombre del proyecto
+* Descripción inferida
+* Fecha de creación (si es posible)
+* Última modificación
+* Tipo de aplicación
+
+#### Tecnologías utilizadas
+
+* Java
+* Spring Boot
+* Spring Security
+* Spring Data JPA
+* Hibernate
+* Maven
+* Gradle
+* MySQL
+* PostgreSQL
+* Angular
+* React
+* JavaScript
+* TypeScript
+* Docker
+* JWT
+* APIs REST
+* Otras tecnologías detectadas
+
+#### Arquitectura
+
+Detectar automáticamente:
+
+* Arquitectura por capas
+* MVC
+* Clean Architecture
+* Hexagonal Architecture
+* Microservicios
+* Monolito modular
+* Arquitectura REST
+
+Documentar:
+
+* Controllers
+* Services
+* Repositories
+* Entities
+* DTOs
+* Configurations
+* Security
+* Exceptions
+* Mappers
+
+---
+
+### Regla 4: Comprensión profunda del código
+
+Cada proyecto debe ser comprendido técnicamente.
+
+Analizar:
+
+* Clases principales
+* Responsabilidades de cada clase
+* Métodos públicos
+* Endpoints REST
+* Servicios implementados
+* Reglas de negocio
+* Flujos de ejecución
+* Relaciones entre entidades
+* Configuración de seguridad
+* Integraciones externas
+
+El sistema debe ser capaz de explicar cualquier funcionalidad implementada en cada proyecto.
+
+---
+
+### Regla 5: Catálogo interno de proyectos
+
+Mantener una estructura interna con la información procesada de cada proyecto.
+
+Ejemplo:
+
+Proyecto:
+
+* Nombre
+* Descripción
+* Tecnologías
+* Arquitectura
+* Funcionalidades
+* Endpoints
+* Entidades
+* Capturas
+* Nivel de complejidad
+* Código destacado
+
+Esta información debe reutilizarse posteriormente sin volver a analizar todo el proyecto salvo que haya cambios detectados.
+
+---
+
+### Regla 6: Portfolio generado desde proyectos reales
+
+Cada tarjeta o sección del portfolio debe construirse utilizando exclusivamente la información obtenida de los proyectos reales.
+
+Cada proyecto deberá incluir:
+
+* Nombre
+* Descripción profesional
+* Tecnologías
+* Arquitectura utilizada
+* Problema que resuelve
+* Funcionalidades principales
+* Retos técnicos
+* Capturas si existen
+* Enlace al repositorio si existe
+
+---
+
+### Regla 7: Orientación profesional
+
+El portfolio está dirigido a reclutadores y empresas que buscan desarrolladores Java Backend Junior.
+
+Las descripciones deben resaltar:
+
+* Buenas prácticas
+* Clean Code
+* Arquitectura
+* Diseño de APIs REST
+* Seguridad
+* Persistencia de datos
+* Experiencia con frameworks
+* Resolución de problemas
+
+---
+
+### Regla 8: Diseño del portfolio
+ -lo trabajaremos poco a poco
+
+---
+
+### Regla 9: Escalabilidad
+
+El sistema debe detectar automáticamente nuevos proyectos añadidos a:
+
+/proyectos
+
+e incorporarlos al portfolio sin afectar los proyectos ya existentes.
+
+---
+
+### Regla 10: Calidad del código
+
+Todo el código generado para portfolio_java debe cumplir:
+
+* SOLID
+* Clean Code
+* Componentes reutilizables
+* Código mantenible
+* Responsabilidad única
+* Buen tipado
+* Organización modular
+
+---
+
+### Regla 11: Antes de cualquier modificación
+
+Siempre verificar:
+
+1. ¿Estoy dentro de portfolio_java?
+2. ¿Voy a modificar algo dentro de proyectos?
+3. Si la respuesta es sí, cancelar la operación.
+4. Continuar únicamente dentro de portfolio_java.
+
+---
+Regla 12: Analiza automáticamente README, pom.xml, build.gradle, package.json, application.properties, application.yml, estructura de carpetas y código fuente para generar fichas técnicas completas de cada proyecto y mantenerlas sincronizadas con los cambios del código."
+
+### Resultado esperado
+
+Generar un portfolio profesional que se construya automáticamente a partir de los proyectos reales existentes en la carpeta proyectos, comprendiendo su código, arquitectura, tecnologías y funcionalidades, sin modificar nunca los proyectos originales y manteniendo toda la lógica de presentación exclusivamente dentro de portfolio_java.
+

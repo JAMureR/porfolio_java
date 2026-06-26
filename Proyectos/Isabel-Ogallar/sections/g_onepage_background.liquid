@@ -1,0 +1,242 @@
+{%- case section.settings.css_animations -%}
+    {% when '1' %}
+      	{%- assign css_animations_class = '' -%}
+    {% when '2' %}
+    	{%- assign css_animations_class = 'wow fadeIn' -%}
+    {% when '3' %}
+    	{%- assign css_animations_class = 'wow fadeInDown' -%}
+    {% when '4' %}
+    	{%- assign css_animations_class = 'wow fadeInDownBig' -%}
+    {% when '5' %}
+    	{%- assign css_animations_class = 'wow fadeInLeft' -%}
+    {% when '6' %}
+    	{%- assign css_animations_class = 'wow fadeInLeftBig' -%}
+    {% when '7' %}
+    	{%- assign css_animations_class = 'wow fadeInRight' -%}
+    {% when '8' %}
+    	{%- assign css_animations_class = 'wow fadeInRightBig' -%}
+    {% when '9' %}
+    	{%- assign css_animations_class = 'wow fadeInUp' -%}
+    {% when '10' %}
+    	{%- assign css_animations_class = 'wow fadeInUpBig' -%}
+{%- endcase -%}
+
+<div class="g-onepage-background" {% if section.settings.margin != blank %}style="margin: {{ section.settings.margin }};"{% endif %}>
+    {% for block in section.blocks %}
+    
+      {%- case block.settings.align_content -%}
+      {% when '1' %}
+      {%- assign align_style = 'align-left_content' -%}
+      {% when '2' %}
+      {%- assign align_style = 'align-center_content' -%}
+      {% when '3' %}
+      {%- assign align_style = 'align-right_content' -%}
+      {%- endcase -%}
+      
+      {%- case block.settings.text_align -%}
+      {% when '1' %}
+      {%- assign text_align_class = 'text-left' -%}
+      {% when '2' %}
+      {%- assign text_align_class = 'text-center' -%}
+      {% when '3' %}
+      {%- assign text_align_class = 'text-right' -%}
+      {%- endcase -%}
+      <div class="item-onepage-background">
+        <div class="g-parallax lazy" data-src="{{ block.settings.image | img_url: 'master', format: 'pjpg' | split:'?' | first }}" {% if section.settings.use_parallax %}style="background-attachment: fixed;"{% endif %}>
+          {% if block.settings.image == blank %}
+          {% capture current %}{% cycle 1, 2, 3 %}{% endcapture %}
+          {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+          <div class="content-onepage-bg {{ css_animations_class }}">
+            <div class="container">
+              <div class="max-width-770 {{ align_style }} {{ text_align_class }}">
+                {% if block.settings.title != blank %}
+                <h2 style="font-size: {{ block.settings.title_font_size }}px; color: {{ block.settings.title_color }};">{{ block.settings.title }}</h2>
+                {% endif %}
+                {% if block.settings.subtitle != blank %}
+                <div class="subtitle" style="font-size: {{ block.settings.subtitle_font_size }}px; color: {{ block.settings.subtitle_color }};">{{ block.settings.subtitle }}</div>
+                {% endif %}
+                {% if block.settings.price != blank %}
+                <div class="price-one-parallax" style="font-size: {{ block.settings.price_font_size }}px; color: {{ block.settings.price_color }};">{{ block.settings.price }}</div>
+                {% endif %}
+                {% if block.settings.button_name != blank %}
+                <a href="{{ block.settings.button_link }}" class="btn btn-size-md btn-style-outline" style="font-size: {{ block.settings.button_font_size }}px; color: {{ block.settings.button_color }}; border-color: {{ block.settings.button_color }};">{{ block.settings.button_name }}</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+</div>
+{% schema %}
+  {
+    "name": "Onepage Background",
+    "class": "globo_onepage_background",
+	"max_blocks": 6,
+  	"presets": [
+      {
+        "name": "Onepage Background",
+        "category": "Onepage",
+        "blocks": [
+          {
+            "type": "block_onepage_background"
+          },
+          {
+            "type": "block_onepage_background"
+          },
+          {
+            "type": "block_onepage_background"
+          },
+          {
+            "type": "block_onepage_background"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "select",
+        "id": "css_animations",
+        "label": "CSS Animation",
+        "options": [
+          { "value": "1", "label": "None" },
+          { "value": "2", "label": "fadeIn" },
+          { "value": "3", "label": "fadeInDown" },
+          { "value": "4", "label": "fadeInDownBig" },
+          { "value": "5", "label": "fadeInLeft" },
+          { "value": "6", "label": "fadeInLeftBig" },
+          { "value": "7", "label": "fadeInRight" },
+          { "value": "8", "label": "fadeInRightBig" },
+          { "value": "9", "label": "fadeInUp" },
+          { "value": "10", "label": "fadeInUpBig" }
+        ],
+        "default": "2"
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_parallax",
+        "label": "Use parallax?",
+        "default": false
+      }
+    ],
+  	"blocks": [
+      {
+        "type": "block_onepage_background",
+        "name": "Add background & text",
+        "settings": [
+          {
+            "type": "select",
+            "id": "align_content",
+            "label": "Align content",
+            "options": [
+              { "value": "1", "label": "Align left content" },
+              { "value": "2", "label": "Align center content" },
+              { "value": "3", "label": "Align right content" }
+            ],
+            "default": "3"
+          },
+          {
+            "type": "select",
+            "id": "text_align",
+            "label": "Text align",
+            "options": [
+              { "value": "1", "label": "Text left" },
+              { "value": "2", "label": "Text center" },
+              { "value": "3", "label": "Text right" }
+            ],
+            "default": "2"
+          },
+           {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+           },
+           {
+              "type": "text",
+              "id": "title",
+              "label": "Title",
+              "default": "Dress with Contrasting Belt"
+           },
+           {
+              "type": "text",
+              "id": "title_font_size",
+              "label": "Title font size",
+              "default": "48"
+           },
+           {
+              "type": "color",
+              "id": "title_color",
+              "label": "Title color",
+              "default": "#262626"
+           },
+           {
+              "type": "text",
+              "id": "subtitle",
+              "label": "Subtitle",
+              "default": "REF. 23053616"
+           },
+           {
+              "type": "text",
+              "id": "subtitle_font_size",
+              "label": "Subtitle font size",
+              "default": "12"
+           },
+           {
+              "type": "color",
+              "id": "subtitle_color",
+              "label": "Subtitle color",
+              "default": "#262626"
+           },
+           {
+              "type": "text",
+              "id": "price",
+              "label": "Price",
+              "default": "$89.99"
+           },
+           {
+              "type": "text",
+              "id": "price_font_size",
+              "label": "Price font size",
+              "default": "36"
+           },
+           {
+              "type": "color",
+              "id": "price_color",
+              "label": "Price color",
+              "default": "#262626"
+           },
+           {
+              "type": "text",
+              "id": "button_name",
+              "label": "Button name",
+              "default": "Shop Now"
+           },
+           {
+              "type": "text",
+              "id": "button_font_size",
+              "label": "Button font size",
+              "default": "12"
+           },
+           {
+              "type": "color",
+              "id": "button_color",
+              "label": "Button color",
+              "default": "#262626"
+           },
+           {
+              "type": "url",
+              "id": "button_link",
+              "label": "Button link"
+           }
+        ]
+      }
+    ]
+  }
+{% endschema %}

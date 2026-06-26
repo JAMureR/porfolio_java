@@ -1,0 +1,39 @@
+{{ 'globo.wishlist.scss.css' | asset_url | stylesheet_tag }}
+<style media="screen">
+    
+</style>
+<script type="text/javascript">
+    var GPWCollection = GPWCollection || {};
+    var GPWConfigs = GPWConfigs || {};
+    GPWConfigs.shop_url = 'veera-globo.myshopify.com';
+    GPWConfigs.app_host = 'https://app.shopifydevelopers.net/wishlist';
+    GPWConfigs.money_character = '$';
+    GPWConfigs.settings = {"settings":{"disable_ajax_cart":true,"limit_wishlist_products":false,"max_wishlist_products":"6","wishlist_style":"button","wishlist_custom_style":null,"wishlist_added_custom_style":null},"fields":[{"value":"Image","enable":true,"id":1},{"value":"Title","enable":true,"id":2},{"value":"Price","enable":true,"id":3},{"value":"Availability","enable":true,"id":4},{"value":"Action","enable":true,"id":5}],"trans":{"add_to_wishlist":"Add to wishtlist","added_to_wishlist":"Added to wishlist","title":"PRODUCT NAME","price":"PRICE","action":"","read_more":"Read more","select_options":"Select options","add_to_cart":"Add to cart","added_to_cart":"Added to cart","availability":"STOCK STATUS","in_stock":"In stock","out_of_stock":"Out of stock","empty":"Empty Wishlist"}};
+
+    function WishListInit() {
+        loadJS('{{'globo.wishlist.js' | asset_url }}', function(){},'defer');
+    }
+
+    var loadJS = function(url, implementationCode,defer){
+        var scriptTag = document.createElement('script');
+        scriptTag.src = url;
+        if(defer) scriptTag.defer = defer;
+        scriptTag.onload = implementationCode;
+        scriptTag.onreadystatechange = implementationCode;
+        document.body.appendChild(scriptTag);
+    };
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        if(typeof jQuery=='undefined') {
+            var headTag = document.getElementsByTagName("head")[0];
+            var jqTag = document.createElement('script');
+            jqTag.type = 'text/javascript';
+            jqTag.src = '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js';
+            jqTag.onload = WishListInit();
+            headTag.appendChild(jqTag);
+        } else {
+             WishListInit();
+        }
+    });
+
+</script>

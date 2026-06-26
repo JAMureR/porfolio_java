@@ -1,0 +1,95 @@
+{%- case section.settings.css_animations -%}
+    {% when '1' %}
+      	{%- assign css_animations_class = '' -%}
+    {% when '2' %}
+    	{%- assign css_animations_class = 'wow fadeIn' -%}
+    {% when '3' %}
+    	{%- assign css_animations_class = 'wow fadeInDown' -%}
+    {% when '4' %}
+    	{%- assign css_animations_class = 'wow fadeInDownBig' -%}
+    {% when '5' %}
+    	{%- assign css_animations_class = 'wow fadeInLeft' -%}
+    {% when '6' %}
+    	{%- assign css_animations_class = 'wow fadeInLeftBig' -%}
+    {% when '7' %}
+    	{%- assign css_animations_class = 'wow fadeInRight' -%}
+    {% when '8' %}
+    	{%- assign css_animations_class = 'wow fadeInRightBig' -%}
+    {% when '9' %}
+    	{%- assign css_animations_class = 'wow fadeInUp' -%}
+    {% when '10' %}
+    	{%- assign css_animations_class = 'wow fadeInUpBig' -%}
+{%- endcase -%}
+
+{%- case section.settings.use_width -%}
+    {% when '1' %}
+      	{%- assign width_form_search = 'g-fullwwidth' -%}
+    {% when '2' %}
+    	{%- assign width_form_search = 'container-full' -%}
+    {% when '3' %}
+    	{%- assign width_form_search = 'container' -%}
+{%- endcase -%}
+
+<div class="g-form-search {{ css_animations_class }}" {% if section.settings.padding != blank %}style="padding: {{ section.settings.padding }};"{% endif %}>
+  <div class="{{ width_form_search }}">
+    <form method="get" class="search-form" action="/search" role="search">
+      <input type="search" class="search-field" placeholder="{{ section.settings.placeholder }}" value="{{ search.terms | escape }}" name="q" aria-label="{{ section.settings.placeholder }}" />
+    </form>		
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Form Search",
+    "class": "globo_form_search",
+    "presets": [
+      {
+        "name": "Form Search",
+        "category": "Search"
+      }
+    ],
+    "settings": [
+        {
+        "type": "select",
+        "id": "css_animations",
+        "label": "CSS Animation",
+        "options": [
+            { "value": "1", "label": "None" },
+            { "value": "2", "label": "fadeIn" },
+            { "value": "3", "label": "fadeInDown" },
+            { "value": "4", "label": "fadeInDownBig" },
+            { "value": "5", "label": "fadeInLeft" },
+            { "value": "6", "label": "fadeInLeftBig" },
+            { "value": "7", "label": "fadeInRight" },
+            { "value": "8", "label": "fadeInRightBig" },
+            { "value": "9", "label": "fadeInUp" },
+            { "value": "10", "label": "fadeInUpBig" }
+          ],
+          "default": "2"
+        },
+        {
+          "type": "select",
+          "id": "use_width",
+          "label": "One banner width",
+          "options": [
+            { "value": "1", "label": "Use full width" },
+            { "value": "2", "label": "Use padding" },
+            { "value": "3", "label": "Use container" }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "text",
+          "id": "padding",
+          "label": "Padding: (top-right-bottom-left)",
+          "info": "Ex: 10px 0 30px 0"
+        },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "label": "Text placeholder",
+		  "default": "Search products…"
+        }
+    ]
+  }
+{% endschema %}

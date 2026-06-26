@@ -1,0 +1,13 @@
+C:\Users\yogas\Desktop\www.javiermuredev.com\Eclipse\ironforge\backend\src\main\java\com\ironforge\backend\BackendApplication.java
+C:\Users\yogas\Desktop\www.javiermuredev.com\Eclipse\ironforge\backend\src\main\java\com\ironforge\backend\config\JwtAuthenticationFilter.java
+C:\Users\yogas\Desktop\www.javiermuredev.com\Eclipse\ironforge\backend\src\main\java\com\ironforge\backend\config\SecurityConfig.java
+C:\Users\yogas\Desktop\www.javiermuredev.com\Eclipse\ironforge\backend\src\main\java\com\ironforge\backend\controller\AuthController.java
+C:\Users\yogas\Desktop\www.javiermuredev.com\Eclipse\ironforge\backend\src\main\java\com\ironforge\backend\controller\UserController.java
+C:\Users\yogas\Desktop\www.javiermuredev.com\Eclipse\ironforge\backend\src\main\java\com\ironforge\backend\dto\AuthResponse.java
+C:\Users\yogas\Desktop\www.javiermuredev.com\Eclipse\ironforge\backend\src\main\java\com\ironforge\backend\dto\LoginRequest.java
+C:\Users\yogas\Desktop\www.javiermuredev.com\Eclipse\ironforge\backend\src\main\java\com\ironforge\backend\dto\RegisterRequest.java
+C:\Users\yogas\Desktop\www.javiermuredev.com\Eclipse\ironforge\backend\src\main\java\com\ironforge\backend\model\Role.java
+C:\Users\yogas\Desktop\www.javiermuredev.com\Eclipse\ironforge\backend\src\main\java\com\ironforge\backend\model\User.java
+C:\Users\yogas\Desktop\www.javiermuredev.com\Eclipse\ironforge\backend\src\main\java\com\ironforge\backend\repository\UserRepository.java
+C:\Users\yogas\Desktop\www.javiermuredev.com\Eclipse\ironforge\backend\src\main\java\com\ironforge\backend\service\JwtService.java
+C:\Users\yogas\Desktop\www.javiermuredev.com\Eclipse\ironforge\backend\src\main\java\com\ironforge\backend\service\UserService.java

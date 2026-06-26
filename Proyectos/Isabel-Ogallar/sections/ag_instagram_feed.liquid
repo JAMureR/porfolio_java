@@ -1,0 +1,583 @@
+{%- comment -%}
+  AG Instagram Feed — Manual post selection with carousel.
+  Uses Instagram oEmbed iframes for real post content.
+  Each block = one Instagram post (image or video).
+  Videos autoplay muted & looped. All posts link to their Instagram URL.
+{%- endcomment -%}
+
+<div
+  id="ag-instagram-{{ section.id }}"
+  class="ag-instagram-section"
+  style="
+    {% if section.settings.padding_top %}padding-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom %}padding-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  <!-- Section heading -->
+  {% if section.settings.title != blank %}
+  <h2 class="ag-instagram-title">{{ section.settings.title }}</h2>
+  {% endif %}
+
+  {% if section.settings.subtitle != blank %}
+  <p class="ag-instagram-subtitle">
+    <a href="{{ section.settings.profile_url | default: 'https://www.instagram.com/isabelogallar/' }}" target="_blank" rel="noopener noreferrer">
+      {{ section.settings.subtitle }}
+    </a>
+  </p>
+  {% endif %}
+
+  <!-- Carousel wrapper -->
+  <div class="ag-instagram-carousel-wrap">
+    <!-- Left arrow -->
+    <button class="ag-instagram-arrow ag-instagram-arrow--prev" aria-label="Anterior" style="background: transparent !important; border: none !important;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" style="fill: none !important; background: transparent !important;">
+        <line x1="19" y1="12" x2="5" y2="12" style="fill: none !important;"></line>
+        <polyline points="12 19 5 12 12 5" style="fill: none !important;"></polyline>
+      </svg>
+    </button>
+
+    <!-- Track -->
+    <div class="ag-instagram-track-container">
+      <div class="ag-instagram-track">
+        {% for block in section.blocks %}
+          <div class="ag-instagram-slide" {{ block.shopify_attributes }}>
+            <a
+              href="{{ block.settings.post_url | default: '#' }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="ag-instagram-link"
+              aria-label="Ver publicación en Instagram"
+            >
+              {% if block.type == 'video_post' %}
+                <!-- VIDEO POST -->
+                <video
+                  class="ag-instagram-media ag-instagram-video"
+                  src="{{ block.settings.video_url }}"
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                ></video>
+              {% else %}
+                <!-- IMAGE POST -->
+                {% if block.settings.image != blank %}
+                  <img
+                    class="ag-instagram-media ag-instagram-img"
+                    src="{{ block.settings.image | image_url: width: 800 }}"
+                    alt="{{ block.settings.alt | default: 'Instagram post de @isabelogallar' }}"
+                    loading="lazy"
+                    width="800"
+                    height="800"
+                  >
+                {% else %}
+                  <div class="ag-instagram-placeholder">
+                    <span>+</span>
+                  </div>
+                {% endif %}
+              {% endif %}
+
+              <!-- Instagram icon overlay -->
+              <span class="ag-instagram-icon-overlay" style="background: transparent !important;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="fill: none !important; background: transparent !important;">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" style="fill: transparent !important;"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" style="fill: transparent !important;"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" style="fill: transparent !important;"></line>
+                </svg>
+              </span>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Right arrow -->
+    <button class="ag-instagram-arrow ag-instagram-arrow--next" aria-label="Siguiente" style="background: transparent !important; border: none !important;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" style="fill: none !important; background: transparent !important;">
+        <line x1="5" y1="12" x2="19" y2="12" style="fill: none !important;"></line>
+        <polyline points="12 5 19 12 12 19" style="fill: none !important;"></polyline>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- Inline styles scoped to this section -->
+<style>
+  /* ── AG Instagram Section ── */
+  .ag-instagram-section {
+    margin-top: -35px;
+    padding: 0 0 68px;
+    background-color: transparent;
+    position: relative;
+    z-index: 11;
+    overflow: hidden;
+  }
+
+  .ag-instagram-title {
+    text-align: center;
+    font-family: var(--ag-font-heading, 'Playfair Display', serif) !important;
+    font-size: 28px !important;
+    font-weight: 400 !important;
+    font-style: italic !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.02em !important;
+    line-height: 1.2 !important;
+    color: var(--ag-text-color, #3A2E28) !important;
+    margin: 0 0 6px;
+  }
+
+  .ag-instagram-subtitle {
+    text-align: center;
+    font-family: var(--ag-font-body, 'Montserrat', sans-serif);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin: 0 0 36px;
+  }
+
+  .ag-instagram-subtitle a {
+    color: var(--ag-text-color, #3A2E28);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .ag-instagram-subtitle a:hover {
+    color: var(--ag-accent-color, #A88D59);
+  }
+
+  /* ── Carousel layout ── */
+  .ag-instagram-carousel-wrap {
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 50px;
+  }
+
+  .ag-instagram-track-container {
+    overflow: hidden;
+    border-radius: 0;
+  }
+
+  .ag-instagram-track {
+    display: flex;
+    gap: 6px;
+    transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+  }
+
+  /* Each slide - Fixed Size Locked */
+  .ag-instagram-slide {
+    flex: 0 0 250px;
+    min-width: 0;
+  }
+
+  .ag-instagram-link {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 125%; /* 4:5 ratio like IG portrait */
+    overflow: hidden;
+    background: #f0ebe4;
+    border-radius: 4px;
+  }
+
+  /* ── Media ── */
+  .ag-instagram-media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .ag-instagram-link:hover .ag-instagram-media {
+    transform: scale(1.04);
+  }
+
+  .ag-instagram-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ag-chrome-color, #FAF6F0);
+    color: var(--ag-border-color, #E8E0D5);
+    font-size: 40px;
+  }
+
+  /* ── Instagram icon overlay (top-right) ── */
+  .ag-instagram-icon-overlay {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: #ffffff !important;
+    opacity: 0.8;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  }
+  
+  .ag-instagram-icon-overlay svg {
+    stroke: #ffffff !important;
+    fill: none !important;
+  }
+  
+  .ag-instagram-icon-overlay svg * {
+    fill: none !important;
+  }
+  
+  .ag-instagram-link:hover .ag-instagram-icon-overlay {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  /* ── Navigation arrows ── */
+  .ag-instagram-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    color: var(--ag-accent-color, #A88D59) !important;
+    cursor: pointer;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .ag-instagram-arrow::before,
+  .ag-instagram-arrow::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  .ag-instagram-arrow svg {
+    stroke: var(--ag-accent-color, #A88D59) !important;
+  }
+
+  .ag-instagram-arrow:hover {
+    opacity: 0.6;
+  }
+
+  .ag-instagram-arrow--prev { left: -10px; }
+  .ag-instagram-arrow--next { right: -10px; }
+
+  .ag-instagram-arrow:disabled {
+    opacity: 0.2;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 1024px) {
+    .ag-instagram-slide {
+      flex: 0 0 220px;
+    }
+    .ag-instagram-carousel-wrap {
+      padding: 0 44px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .ag-instagram-section {
+      padding: 40px 0 50px;
+    }
+    .ag-instagram-title {
+      font-size: 22px !important;
+    }
+    .ag-instagram-slide {
+      flex: 0 0 200px;
+    }
+    .ag-instagram-carousel-wrap {
+      padding: 0 38px;
+    }
+    .ag-instagram-arrow {
+      width: 34px;
+      height: 34px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .ag-instagram-slide {
+      flex: 0 0 calc(100% - 24px);
+      max-width: 100%;
+    }
+    .ag-instagram-carousel-wrap {
+      padding: 0 32px;
+    }
+  }
+</style>
+
+<!-- Carousel JS & Instagram Fetch -->
+<script>
+  (function () {
+    var sectionId = 'ag-instagram-{{ section.id }}';
+    var section = document.getElementById(sectionId);
+    if (!section) return;
+
+    var track = section.querySelector('.ag-instagram-track');
+    var container = section.querySelector('.ag-instagram-track-container');
+    var prevBtn = section.querySelector('.ag-instagram-arrow--prev');
+    var nextBtn = section.querySelector('.ag-instagram-arrow--next');
+    var accessToken = {{ section.settings.access_token | json }};
+
+    function initCarousel() {
+      var slides = section.querySelectorAll('.ag-instagram-slide');
+      if (!track || slides.length === 0) return;
+
+      var currentIndex = 0;
+
+      function getSlidesVisible() {
+        if (slides.length === 0) return 1;
+        var slideWidth = slides[0].offsetWidth + 6; // 6px gap
+        var visible = Math.floor(container.offsetWidth / slideWidth);
+        return Math.max(1, visible);
+      }
+
+      function getMaxIndex() {
+        var visible = getSlidesVisible();
+        return Math.max(0, slides.length - visible);
+      }
+
+      function updatePosition() {
+        if (slides.length === 0) return;
+        var slideEl = slides[0];
+        var slideWidth = slideEl.offsetWidth + 6;
+        track.style.transform = 'translateX(-' + (currentIndex * slideWidth) + 'px)';
+        prevBtn.disabled = currentIndex <= 0;
+        nextBtn.disabled = currentIndex >= getMaxIndex();
+      }
+
+      prevBtn.onclick = function () {
+        if (currentIndex > 0) {
+          currentIndex--;
+          updatePosition();
+        }
+      };
+
+      nextBtn.onclick = function () {
+        if (currentIndex < getMaxIndex()) {
+          currentIndex++;
+          updatePosition();
+        }
+      };
+
+      // Touch support
+      var startX = 0;
+      var isDragging = false;
+      container.addEventListener('touchstart', function (e) {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+      }, { passive: true });
+      container.addEventListener('touchend', function (e) {
+        if (!isDragging) return;
+        isDragging = false;
+        var diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) {
+          if (diff > 0 && currentIndex < getMaxIndex()) currentIndex++;
+          else if (diff < 0 && currentIndex > 0) currentIndex--;
+          updatePosition();
+        }
+      }, { passive: true });
+
+      // Autoplay videos
+      var videos = section.querySelectorAll('.ag-instagram-video');
+      if (videos.length > 0 && 'IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) entry.target.play().catch(function(){});
+            else entry.target.pause();
+          });
+        }, { threshold: 0.3 });
+        videos.forEach(function (v) { observer.observe(v); });
+      }
+
+      var resizeTimer;
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+          if (currentIndex > getMaxIndex()) currentIndex = getMaxIndex();
+          updatePosition();
+        }, 150);
+      });
+
+      updatePosition();
+    }
+
+    // If Access Token provided, fetch dynamic data
+    if (accessToken && accessToken.trim() !== '') {
+      var limit = 6;
+      var url = 'https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url&limit=' + limit + '&access_token=' + accessToken;
+      
+      fetch(url)
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          if (data && data.data && data.data.length > 0) {
+            track.innerHTML = ''; // Clear fallback manual blocks
+            data.data.forEach(function(post) {
+              var slide = document.createElement('div');
+              slide.className = 'ag-instagram-slide';
+              
+              var link = document.createElement('a');
+              link.href = post.permalink;
+              link.target = '_blank';
+              link.rel = 'noopener noreferrer';
+              link.className = 'ag-instagram-link';
+              link.setAttribute('aria-label', 'Ver publicación en Instagram');
+
+              if (post.media_type === 'VIDEO') {
+                link.innerHTML = '<video class="ag-instagram-media ag-instagram-video" src="' + post.media_url + '" autoplay muted loop playsinline preload="metadata"></video>';
+              } else {
+                var imgUrl = post.media_type === 'CAROUSEL_ALBUM' ? post.media_url : post.media_url;
+                link.innerHTML = '<img class="ag-instagram-media ag-instagram-img" src="' + imgUrl + '" alt="Instagram post" loading="lazy" width="800" height="800">';
+              }
+
+              // Instagram icon
+              link.innerHTML += '<span class="ag-instagram-icon-overlay" style="background: transparent !important;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="fill: none !important; background: transparent !important;"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" style="fill: transparent !important;"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" style="fill: transparent !important;"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" style="fill: transparent !important;"></line></svg></span>';
+              
+              slide.appendChild(link);
+              track.appendChild(slide);
+            });
+            initCarousel();
+          } else {
+            console.error("Instagram API error or no posts found", data);
+            initCarousel(); // Fallback to manual blocks if API fails
+          }
+        })
+        .catch(function(err) {
+          console.error("Error fetching Instagram posts", err);
+          initCarousel();
+        });
+    } else {
+      // No token, just init with manual blocks
+      if (document.readyState === 'complete') initCarousel();
+      else window.addEventListener('load', initCarousel);
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "AG Instagram Feed",
+  "class": "ag-instagram-feed-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Visto en instagram"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtítulo / Handle",
+      "default": "@isabelogallar"
+    },
+    {
+      "type": "url",
+      "id": "profile_url",
+      "label": "Enlace al perfil de Instagram"
+    },
+    {
+      "type": "text",
+      "id": "access_token",
+      "label": "Instagram Access Token (Para carga automática)",
+      "info": "Genera un token de Instagram Basic Display API. Si lo rellenas, las publicaciones se cargarán automáticamente y los bloques manuales se ignorarán."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding superior (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding inferior (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 68
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_post",
+      "name": "Post Imagen",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen del post"
+        },
+        {
+          "type": "url",
+          "id": "post_url",
+          "label": "Enlace al post de Instagram"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Texto alternativo",
+          "default": "Instagram post de @isabelogallar"
+        }
+      ]
+    },
+    {
+      "type": "video_post",
+      "name": "Post Video / Reel",
+      "settings": [
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "URL del archivo de vídeo (mp4)",
+          "info": "Sube el vídeo a Shopify (Configuración > Archivos) y pega la URL aquí."
+        },
+        {
+          "type": "url",
+          "id": "post_url",
+          "label": "Enlace al post de Instagram"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "AG Instagram Feed",
+      "category": "Social",
+      "blocks": [
+        { "type": "image_post" },
+        { "type": "image_post" },
+        { "type": "image_post" },
+        { "type": "image_post" }
+      ]
+    }
+  ]
+}
+{% endschema %}

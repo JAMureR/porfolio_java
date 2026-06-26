@@ -1,0 +1,161 @@
+{%- case section.settings.css_animations -%}
+    {% when '1' %}
+      	{%- assign css_animations_class = '' -%}
+    {% when '2' %}
+    	{%- assign css_animations_class = 'wow fadeIn' -%}
+    {% when '3' %}
+    	{%- assign css_animations_class = 'wow fadeInDown' -%}
+    {% when '4' %}
+    	{%- assign css_animations_class = 'wow fadeInDownBig' -%}
+    {% when '5' %}
+    	{%- assign css_animations_class = 'wow fadeInLeft' -%}
+    {% when '6' %}
+    	{%- assign css_animations_class = 'wow fadeInLeftBig' -%}
+    {% when '7' %}
+    	{%- assign css_animations_class = 'wow fadeInRight' -%}
+    {% when '8' %}
+    	{%- assign css_animations_class = 'wow fadeInRightBig' -%}
+    {% when '9' %}
+    	{%- assign css_animations_class = 'wow fadeInUp' -%}
+    {% when '10' %}
+    	{%- assign css_animations_class = 'wow fadeInUpBig' -%}
+{%- endcase -%}
+
+{%- case section.settings.use_width -%}
+    {% when '1' %}
+      	{%- assign width_one_banner = 'g-fullwwidth' -%}
+    {% when '2' %}
+    	{%- assign width_one_banner = 'container-full' -%}
+    {% when '3' %}
+    	{%- assign width_one_banner = 'container' -%}
+{%- endcase -%}
+
+<div class="g-one-banner-5 {{ css_animations_class }}" style="{% if section.settings.margin != blank %}margin: {{ section.settings.margin }};{% endif %}{% if section.settings.color != blank %}color: {{ section.settings.color }};{% endif %}">
+  <div class="{{ width_one_banner }}">
+    <div class="g-banner cover-background lazy" {% if section.settings.image != blank %}data-src="{{ section.settings.image | img_url: '1920x', format: 'pjpg' | split:'?' | first }}"{% else %}style="background-color: #e6e6e6;"{% endif %}>
+      <div class="container text-center">
+        <div class="content-one-banner-5"> 
+            {% if section.settings.title != blank %}
+            <div class="title">{{ section.settings.title }}</div>
+            {% endif %}
+            {% if section.settings.heading != blank %}
+            <div class="heading">{{ section.settings.heading }}</div>
+            {% endif %}
+            {% if section.settings.subheading != blank %}
+            <div class="subheading">{{ section.settings.subheading }}</div>
+            {% endif %}  
+            {% if section.settings.button_name != blank %}
+            <a href="{{ section.settings.button_link }}" class="btn btn-size-md btn-style-outline" style="{% if section.settings.button_color != blank %}color: {{ section.settings.button_color }}; border-color: {{ section.settings.button_bg_color }};{% endif %}{% if section.settings.button_bg_color != blank %}background-color: {{ section.settings.button_bg_color }};{% endif %}">{{ section.settings.button_name }}</a>  
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style id="vc_google_fonts_cinzelregular700900-css" type="text/css">
+  @import url('//fonts.googleapis.com/css?family=Cinzel:400,700,900');
+</style>
+<style id="vc_google_fonts_crimson_textregularitalic600600italic700700italic-css" type="text/css">
+  @import url('//fonts.googleapis.com/css?family=Crimson+Text:400,400i,600,600i,700,700i');
+</style>
+{% schema %}
+  {
+    "name": "One Banner 5",
+    "class": "globo_one_banner_5",
+    "presets": [
+      {
+        "name": "One Banner 5",
+        "category": "Categories & Banner"
+      }
+    ],
+    "settings": [
+        {
+        "type": "select",
+        "id": "css_animations",
+        "label": "CSS Animation",
+        "options": [
+            { "value": "1", "label": "None" },
+            { "value": "2", "label": "fadeIn" },
+            { "value": "3", "label": "fadeInDown" },
+            { "value": "4", "label": "fadeInDownBig" },
+            { "value": "5", "label": "fadeInLeft" },
+            { "value": "6", "label": "fadeInLeftBig" },
+            { "value": "7", "label": "fadeInRight" },
+            { "value": "8", "label": "fadeInRightBig" },
+            { "value": "9", "label": "fadeInUp" },
+            { "value": "10", "label": "fadeInUpBig" }
+          ],
+          "default": "2"
+        },
+        {
+          "type": "select",
+          "id": "use_width",
+          "label": "One banner width",
+          "options": [
+            { "value": "1", "label": "Use full width" },
+            { "value": "2", "label": "Use padding" },
+            { "value": "3", "label": "Use container" }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "text",
+          "id": "margin",
+          "label": "Margin: (top-right-bottom-left)",
+          "info": "Ex: 10px 0 30px 0"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Color content",
+		  "default": "#262626"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+		  "default": "Summer Sale"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+		  "default": "40%"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+		  "default": "off everything"
+        },
+        {
+          "type": "text",
+          "id": "button_name",
+          "label": "Button Name",
+		  "default": "Shop Now"
+        },
+        {
+          "type": "color",
+          "id": "button_color",
+          "label": "Button color",
+		  "default": "#262626"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_color",
+          "label": "Button background color",
+		  "default": "#ffffff"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+    ]
+  }
+{% endschema %}

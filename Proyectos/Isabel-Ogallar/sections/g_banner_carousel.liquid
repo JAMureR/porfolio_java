@@ -1,0 +1,201 @@
+{%- case section.settings.css_animations -%}
+    {% when '1' %}
+      	{%- assign css_animations_class = '' -%}
+    {% when '2' %}
+    	{%- assign css_animations_class = 'wow fadeIn' -%}
+    {% when '3' %}
+    	{%- assign css_animations_class = 'wow fadeInDown' -%}
+    {% when '4' %}
+    	{%- assign css_animations_class = 'wow fadeInDownBig' -%}
+    {% when '5' %}
+    	{%- assign css_animations_class = 'wow fadeInLeft' -%}
+    {% when '6' %}
+    	{%- assign css_animations_class = 'wow fadeInLeftBig' -%}
+    {% when '7' %}
+    	{%- assign css_animations_class = 'wow fadeInRight' -%}
+    {% when '8' %}
+    	{%- assign css_animations_class = 'wow fadeInRightBig' -%}
+    {% when '9' %}
+    	{%- assign css_animations_class = 'wow fadeInUp' -%}
+    {% when '10' %}
+    	{%- assign css_animations_class = 'wow fadeInUpBig' -%}
+{%- endcase -%}
+{%- case section.settings.use_width -%}
+    {% when '1' %}
+      	{%- assign width_slideshow = 'g-fullwwidth' -%}
+    {% when '2' %}
+    	{%- assign width_slideshow = 'container-full' -%}
+    {% when '3' %}
+    	{%- assign width_slideshow = 'container' -%}
+{%- endcase -%}
+{%- case section.settings.sidetoshow -%}
+    {% when '3' %}
+      	{%- assign slider_class_width = 'xlg-grid-3-items lg-grid-3-items md-grid-3-items' -%}
+    {% when '4' %}
+    	{%- assign slider_class_width = 'xlg-grid-4-items lg-grid-4-items md-grid-4-items' -%}
+{%- endcase -%}
+<div class="g-banner-carousel {{ css_animations_class }}" {% if section.settings.margin != blank %}style="margin: {{ section.settings.margin }};"{% endif %}>
+  <div class="{{ width_slideshow }}">
+    <div style="display: none;">{% include 'dlicon-arrow-left2' %}{% include 'dlicon-arrow-right2' %}</div>
+    <div class="g-slick-slider grid-items grid-space-0 {{ slider_class_width }} sm-grid-3-items xs-grid-2-items mb-grid-1-items" data-slick='{"infinite":{% if section.settings.use_loop %}true{% else %}false{% endif %},"dots":{% if section.settings.use_dots %}true{% else %}false{% endif %},"slidesToShow":{{ section.settings.sidetoshow }},"slidesToScroll":{{ section.settings.sidetoshow }},"autoplay":{% if section.settings.use_autoplay %}true{% else %}false{% endif %},"arrows":{% if section.settings.use_arrow %}true{% else %}false{% endif %},"speed":"1000","autoplaySpeed":3000,"centerMode":false,"variableWidth":false,"nextArrow":"<button type=\"button\" style=\"font-size:24px;width:24px;height:24px;line-height:24px;\" class=\"slick-next default\"><svg><use xlink:href=\"#dlicon-arrow-right2\"><\/use><\/svg><\/button>","prevArrow":"<button type=\"button\" style=\"font-size:24px;width:24px;height:24px;line-height:24px;\" class=\"slick-prev default\"><svg><use xlink:href=\"#dlicon-arrow-left2\"><\/use><\/svg><\/button>","responsive":[{"breakpoint":1200,"settings":{"slidesToShow":3,"slidesToScroll":3}},{"breakpoint":992,"settings":{"slidesToShow":2,"slidesToScroll":2}},{"breakpoint":768,"settings":{"slidesToShow":1,"slidesToScroll":1}},{"breakpoint":480,"settings":{"slidesToShow":1,"slidesToScroll":1}}]}'>
+      {% for block in section.blocks %}
+        <div class="grid-item col-banner-hover">
+          <div class="col-relative">
+            <div class="banner--image">
+              {% if block.settings.image != blank %}
+              <div class="cover-background-carousel lazy" data-src="{{ block.settings.image | img_url: 'master', format: 'pjpg' | split:'?' | first }}"></div>
+              {% else %}
+              {% capture current %}{% cycle 1, 2, 3 %}{% endcapture %}
+              {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+              {% endif %}
+            </div>
+            <div class="banner--info">
+              <div class="table-banner">
+                <div class="table-cell-banner text-left">
+                  {% if block.settings.title != blank %}
+                  <div class="title">{{ block.settings.title }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% if block.settings.link != blank %}
+            <a href="{{ block.settings.link }}" class="overflow-link"></a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Block banner carousel",
+    "class": "globo_banner_carousel",
+	"max_blocks": 8,
+  	"presets": [
+      {
+        "name": "Block banner carousel",
+        "category": "Categories & Banner",
+        "blocks": [
+          {
+            "type": "block_banner_carousel"
+          },
+          {
+            "type": "block_banner_carousel"
+          },
+          {
+            "type": "block_banner_carousel"
+          },
+          {
+            "type": "block_banner_carousel"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+      "type": "select",
+      "id": "css_animations",
+      "label": "CSS Animation",
+      "options": [
+          { "value": "1", "label": "None" },
+          { "value": "2", "label": "fadeIn" },
+          { "value": "3", "label": "fadeInDown" },
+          { "value": "4", "label": "fadeInDownBig" },
+          { "value": "5", "label": "fadeInLeft" },
+          { "value": "6", "label": "fadeInLeftBig" },
+          { "value": "7", "label": "fadeInRight" },
+          { "value": "8", "label": "fadeInRightBig" },
+          { "value": "9", "label": "fadeInUp" },
+          { "value": "10", "label": "fadeInUpBig" }
+        ],
+        "default": "2"
+      },
+      {
+        "type": "select",
+        "id": "use_width",
+        "label": "Slideshow width",
+        "options": [
+          { "value": "1", "label": "Use full width" },
+          { "value": "2", "label": "Use padding" },
+          { "value": "3", "label": "Use container" }
+        ],
+        "default": "1"
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      },
+      {
+       "type": "header",
+       "content": "Banner Slider"
+      },
+      {
+        "type": "select",
+        "id": "sidetoshow",
+        "label": "Slides To Show",
+        "options": [
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          }
+        ],
+        "default": "3"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_loop",
+        "label": "Use Infinite loop sliding?",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "use_autoplay",
+        "label": "Use autoplay?",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "use_dots",
+        "label": "Use dots?",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "use_arrow",
+        "label": "Use arrow?",
+        "default": false
+      }
+    ],
+  	"blocks": [
+      {
+        "type": "block_banner_carousel",
+        "name": "Block banner carousel",
+        "settings": [
+           {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+           },
+           {
+              "type": "text",
+              "id": "title",
+              "label": "Title",
+              "default": "Men Blazer"
+           },
+           {
+              "type": "url",
+              "id": "link",
+              "label": "Link"
+           }
+        ]
+      }
+    ]
+  }
+{% endschema %}

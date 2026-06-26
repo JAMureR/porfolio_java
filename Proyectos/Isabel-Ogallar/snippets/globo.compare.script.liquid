@@ -1,0 +1,50 @@
+{{ 'globo.compare.plugin.css' | asset_url | stylesheet_tag }}{{ 'globo.compare.css' | asset_url | stylesheet_tag }}
+<style media="screen">
+    
+</style>
+<script type="text/javascript">
+    var GPCCollection = GPCCollection || {};
+    var GPCConfigs = GPCConfigs || {};
+    GPCConfigs.shop_url = 'veera-globo.myshopify.com';
+    GPCConfigs.app_host = 'https://app.shopifydevelopers.net/compare';
+    GPCConfigs.money_character = '$';
+    GPCConfigs.settings = {"settings":{"disable_ajax_cart":true,"limit_compareable_products":false,"max_compareable_products":"6","compare_style":"button","compare_custom_style":null,"compare_added_custom_style":null},"fields":[{"value":"Remove","enable":true,"id":1},{"value":"Image","enable":true,"id":2},{"value":"Title","enable":true,"id":3},{"value":"Price","enable":true,"id":4},{"value":"Action","enable":true,"id":5},{"value":"Description","enable":false,"id":6},{"value":"Availability","enable":true,"id":7},{"value":"Options","enable":true,"id":8}],"trans":{"add_to_compare":"Add to compare","added_to_compare":"Added to compare","remove":"Remove","title":"Title","price":"Price","action":"Action","read_more":"Read more","select_options":"Select options","add_to_cart":"Add to cart","added_to_cart":"Added to cart","availability":"Availability","in_stock":"In stock","out_of_stock":"Out of stock","empty":"Empty Compare"}};
+
+    function CompareInit() {
+        loadJS('{{'globo.compare.plugin.js' | asset_url }}',function(){loadJS('{{'globo.compare.js' | asset_url }}', function(){},'defer')},'');
+    }
+
+    var loadJS = function(url, implementationCode,defer){
+        var scriptTag = document.createElement('script');
+        scriptTag.src = url;
+        if(defer) scriptTag.defer = defer;
+        scriptTag.onload = implementationCode;
+        scriptTag.onreadystatechange = implementationCode;
+        document.body.appendChild(scriptTag);
+    };
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        if(typeof jQuery=='undefined') {
+            var headTag = document.getElementsByTagName("head")[0];
+            var jqTag = document.createElement('script');
+            jqTag.type = 'text/javascript';
+            jqTag.src = '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js';
+            jqTag.onload = CompareInit();
+            headTag.appendChild(jqTag);
+        } else {
+             CompareInit();
+        }
+    });
+
+</script>
+
+<!-- This contains the hidden content for inline calls -->
+<div style='display:none'>
+    <div id='inline_content' style='background:#fff;'>
+    	<table class="table compare-list">
+			<tbody>
+                <tr class="loading"><td>Loading</td></tr>
+			</tbody>
+		</table>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+
+{
+  "name": "Gym Tracker Pro",
+  "description": "Una plataforma profesional para entusiastas del fitness, permitiendo el seguimiento de entrenamientos, gestión de ejercicios y análisis de progreso con una estética agresiva y moderna.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

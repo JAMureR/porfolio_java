@@ -1,0 +1,345 @@
+{%- case section.settings.css_animations -%}
+    {% when '1' %}
+      	{%- assign css_animations_class = '' -%}
+    {% when '2' %}
+    	{%- assign css_animations_class = 'wow fadeIn' -%}
+    {% when '3' %}
+    	{%- assign css_animations_class = 'wow fadeInDown' -%}
+    {% when '4' %}
+    	{%- assign css_animations_class = 'wow fadeInDownBig' -%}
+    {% when '5' %}
+    	{%- assign css_animations_class = 'wow fadeInLeft' -%}
+    {% when '6' %}
+    	{%- assign css_animations_class = 'wow fadeInLeftBig' -%}
+    {% when '7' %}
+    	{%- assign css_animations_class = 'wow fadeInRight' -%}
+    {% when '8' %}
+    	{%- assign css_animations_class = 'wow fadeInRightBig' -%}
+    {% when '9' %}
+    	{%- assign css_animations_class = 'wow fadeInUp' -%}
+    {% when '10' %}
+    	{%- assign css_animations_class = 'wow fadeInUpBig' -%}
+{%- endcase -%}
+
+{%- case section.settings.use_width -%}
+    {% when '1' %}
+      	{%- assign width_banner = 'g-fullwwidth' -%}
+    {% when '2' %}
+    	{%- assign width_banner = 'container-full' -%}
+    {% when '3' %}
+    	{%- assign width_banner = 'container' -%}
+{%- endcase -%}
+
+<div class="g-banner-image-text {{ css_animations_class }}" style="{% if section.settings.image != blank %}background-image: url({{ section.settings.image | img_url: 'master' | split:'?' | first }}),url({{ section.settings.image2 | img_url: 'master' | split:'?' | first }});{% endif %} {% if section.settings.margin != blank %}margin: {{ section.settings.margin }};{% endif %} {% if section.settings.padding != blank %}padding: {{ section.settings.padding }};{% endif %}">
+  <div class="{{ width_banner }}">
+    <div class="banner-top-img-text text-center">
+      	{% if section.settings.title != blank %}
+      	<h3 class="title">{{ section.settings.title }}</h3>
+      	{% endif %}
+      	{% if section.settings.subtitle != blank %}
+      	<p class="subtitle">{{ section.settings.subtitle }}</p>
+      	{% endif %}
+    	{% if section.settings.image_logo != blank %}
+      		<img data-src="{{ section.settings.image_logo | img_url: '217x' | split:'?' | first }}" alt="{{ section.settings.image_logo.alt }}" class="lazy">
+      	{% endif %}
+      	{% if section.settings.text != blank %}
+      		<p class="text-font-other">{{ section.settings.text }}</p>
+      	{% endif %}
+    </div>
+    <div class="row">
+      {% for block in section.blocks %}
+      {%- case block.settings.width -%}
+      {% when '1' %}
+      {% assign featured_banner_width = 'col-sm-3 col-xs-12' %}
+      {% when '2' %}
+      {% assign featured_banner_width = 'col-sm-4 col-xs-12' %}
+      {% when '3' %}
+      {% assign featured_banner_width = 'col-sm-6 col-xs-12' %}
+      {% when '4' %}
+      {% assign featured_banner_width = 'col-sm-12 col-xs-12' %}
+      {%- endcase -%}
+      {% case block.type %}
+      {% when 'banner1' %}
+      <div class="{{ featured_banner_width }} col-banner-hover col-svg-height-large">
+        <div class="col-relative banner-type-1">
+          <div class="banner--image">
+            {% if block.settings.image != blank %}
+            <div class="cover-background-carousel lazy" style="padding-top: 140%;" data-src="{{ block.settings.image | img_url: 'master', format: 'pjpg' | split:'?' | first }}"></div>
+            {% else %}
+            {% capture current %}{% cycle 1, 2, 3 %}{% endcapture %}
+            {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+          </div>
+          <div class="banner--info">
+            {% if block.settings.title != blank %}
+            <div class="js-el b-title1">{{ block.settings.title }}</div>
+            {% endif %}
+          </div>
+          {% if block.settings.link != blank %}
+          <a href="{{ block.settings.link }}" class="overflow-link"></a>
+          {% endif %}
+        </div>
+      </div>	
+      {% when 'banner2' %}
+      <div class="{{ featured_banner_width }} col-banner-hover">
+        <div class="col-relative col-banner-child banner-type-1">
+          <div class="banner--image">
+            {% if block.settings.image != blank %}
+            <div class="cover-background-carousel lazy" style="padding-top: calc(70% - 15px); padding-top: -webkit-calc(70% - 15px);" data-src="{{ block.settings.image | img_url: 'master', format: 'pjpg' | split:'?' | first }}"></div>
+            {% else %}
+            {% capture current %}{% cycle 1, 2, 3 %}{% endcapture %}
+            {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+          </div>
+          <div class="banner--info">
+            {% if block.settings.title != blank %}
+            <div class="js-el b-title1">{{ block.settings.title }}</div>
+            {% endif %}
+          </div>
+          {% if block.settings.link != blank %}
+          <a href="{{ block.settings.link }}" class="overflow-link"></a>
+          {% endif %}
+        </div>
+        <div class="col-relative col-banner-child banner-type-1">
+          <div class="banner--image">
+            {% if block.settings.image2 != blank %}
+            <div class="cover-background-carousel lazy" style="padding-top: calc(70% - 15px); padding-top: -webkit-calc(70% - 15px);" data-src="{{ block.settings.image2 | img_url: 'master', format: 'pjpg' | split:'?' | first }}"></div>
+            {% else %}
+            {% capture current %}{% cycle 1, 2, 3 %}{% endcapture %}
+            {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+          </div>
+          <div class="banner--info">
+            {% if block.settings.title2 != blank %}
+            <div class="js-el b-title1">{{ block.settings.title2 }}</div>
+            {% endif %}
+          </div>
+          {% if block.settings.link2 != blank %}
+          <a href="{{ block.settings.link2 }}" class="overflow-link"></a>
+          {% endif %}
+        </div>
+      </div>
+      {%- endcase -%}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Block banner image text",
+    "class": "globo_banner_image_text",
+	"max_blocks": 6,
+  	"presets": [
+      {
+        "name": "Block banner image text",
+        "category": "Categories & Banner",
+        "blocks": [
+          {
+            "type": "banner1"
+          },
+          {
+            "type": "banner2"
+          },
+          {
+            "type": "banner2"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+      "type": "select",
+      "id": "css_animations",
+      "label": "CSS Animation",
+      "options": [
+          { "value": "1", "label": "None" },
+          { "value": "2", "label": "fadeIn" },
+          { "value": "3", "label": "fadeInDown" },
+          { "value": "4", "label": "fadeInDownBig" },
+          { "value": "5", "label": "fadeInLeft" },
+          { "value": "6", "label": "fadeInLeftBig" },
+          { "value": "7", "label": "fadeInRight" },
+          { "value": "8", "label": "fadeInRightBig" },
+          { "value": "9", "label": "fadeInUp" },
+          { "value": "10", "label": "fadeInUpBig" }
+        ],
+        "default": "2"
+      },
+      {
+        "type": "select",
+        "id": "use_width",
+        "label": "Banner width",
+        "options": [
+          { "value": "1", "label": "Use full width" },
+          { "value": "2", "label": "Use padding" },
+          { "value": "3", "label": "Use container" }
+        ],
+        "default": "3"
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      },
+      {
+        "type": "text",
+        "id": "padding",
+        "label": "Padding: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Background image right top"
+      },
+      {
+        "type": "image_picker",
+        "id": "image2",
+        "label": "Background image left bottom"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Subtitle"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_logo",
+        "label": "Image logo"
+      },
+      {
+        "type": "textarea",
+        "id": "text",
+        "label": "Text",
+		"default": "Pellentesque mollis nec orci id tincidunt. Sed mollis risus eu nisi aliquet, sit amet fermentum justo dapibus. Donec mollis neque vulputate sagittis lobortis."
+      }
+    ],
+  	"blocks": [
+      {
+        "type": "banner1",
+        "name": "Banner Column 1",
+        "settings": [
+           {
+          "type": "select",
+          "id": "width",
+          "label": "Width",
+          "default": "2",
+          "options": [
+               {
+                 "value": "1",
+                 "label": "25%"
+               },
+               {
+                 "value": "2",
+                 "label": "33.33333%"
+               },
+               {
+                 "value": "3",
+                 "label": "50%"
+               },
+               {
+                 "value": "4",
+                 "label": "100%"
+               }
+             ]
+           },
+           {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+           },
+           {
+               "type":"url",
+               "id":"link",
+               "label":"Link",
+               "info": "Optional"
+           },
+           {
+               "type": "text",
+               "id": "title",
+               "label": "Title",
+			   "default": "Women"
+           }
+        ]
+      },
+      {
+        "type": "banner2",
+        "name": "Banner Column 2",
+        "settings": [
+           {
+          "type": "select",
+          "id": "width",
+          "label": "Width",
+          "default": "2",
+          "options": [
+               {
+                 "value": "1",
+                 "label": "25%"
+               },
+               {
+                 "value": "2",
+                 "label": "33.33333%"
+               },
+               {
+                 "value": "3",
+                 "label": "50%"
+               },
+               {
+                 "value": "4",
+                 "label": "100%"
+               }
+             ]
+           },
+           {
+            "type": "header",
+            "content": "Col banner 1"
+           },
+           {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+           },
+           {
+               "type":"url",
+               "id":"link",
+               "label":"Link",
+               "info": "Optional"
+           },
+           {
+               "type": "text",
+               "id": "title",
+               "label": "Title",
+				"default": "Men's"
+           },
+           {
+            "type": "header",
+            "content": "Col banner 2"
+           },
+           {
+            "type": "image_picker",
+            "id": "image2",
+            "label": "Image"
+           },
+           {
+               "type":"url",
+               "id":"link2",
+               "label":"Link",
+               "info": "Optional"
+           },
+           {
+               "type": "text",
+               "id": "title2",
+               "label": "Title",
+			   "default": "Shoes"
+           }
+        ]
+      }
+    ]
+  }
+{% endschema %}

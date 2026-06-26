@@ -1,0 +1,162 @@
+{%- case section.settings.css_animations -%}
+    {% when '1' %}
+      	{%- assign css_animations_class = '' -%}
+    {% when '2' %}
+    	{%- assign css_animations_class = 'wow fadeIn' -%}
+    {% when '3' %}
+    	{%- assign css_animations_class = 'wow fadeInDown' -%}
+    {% when '4' %}
+    	{%- assign css_animations_class = 'wow fadeInDownBig' -%}
+    {% when '5' %}
+    	{%- assign css_animations_class = 'wow fadeInLeft' -%}
+    {% when '6' %}
+    	{%- assign css_animations_class = 'wow fadeInLeftBig' -%}
+    {% when '7' %}
+    	{%- assign css_animations_class = 'wow fadeInRight' -%}
+    {% when '8' %}
+    	{%- assign css_animations_class = 'wow fadeInRightBig' -%}
+    {% when '9' %}
+    	{%- assign css_animations_class = 'wow fadeInUp' -%}
+    {% when '10' %}
+    	{%- assign css_animations_class = 'wow fadeInUpBig' -%}
+{%- endcase -%}
+
+<div class="g-column-image-text" {% if section.settings.margin != blank %}style="margin: {{ section.settings.margin }};"{% endif %}>
+  <div class="container-fluid">
+    <div class="row row-flex">
+      {%- for block in section.blocks -%}
+      {% case block.type %}
+      {% when 'image' %}
+      {% if block.settings.image != blank %}
+        <div class="col-sm-6 col-xs-12 cover-background lazy {{ css_animations_class }}" data-wow-delay="0.2s" data-src="{{ block.settings.image | img_url: 'master' }}" style="padding: 44% 0 0 0; position: relative;">
+
+        </div>
+      {% else %}
+        <div class="col-sm-6 col-xs-12 cover-background {{ css_animations_class }}" data-wow-delay="0.2s" style="padding: 0; position: relative;">
+          {{ 'image' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+      {% when 'text' %}
+      <div class="col-sm-6 col-xs-12 text-center {{ css_animations_class }}" data-wow-delay="0.4s" style="padding: 0;">
+        <div class="table-div">
+          <div class="table-cell-div">
+            <div class="max-width-480">
+              {% if block.settings.title != blank %}
+              <div class="title">{{ block.settings.title }}</div>
+              {% endif %}
+              {% if block.settings.text != blank %}
+              <div class="text">{{ block.settings.text }}</div>    
+              {% endif %}
+              {% if block.settings.button_name != blank %}
+              <a href="{{ block.settings.button_link }}" class="btn btn-size-md">{{ block.settings.button_name }}</a>
+              {% endif %}
+            </div>	
+          </div>
+        </div>
+      </div>
+      {% endcase %}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+{% schema %}
+  {
+    "name": "Block left right content",
+    "class": "globo_left_right_content",
+  	"presets": [
+      {
+        "name": "Block left right content",
+        "category": "Text",
+        "blocks": [
+          {
+            "type": "image"
+          },
+          {
+            "type": "text"
+          },
+          {
+            "type": "text"
+          },
+          {
+            "type": "image"
+          },
+          {
+            "type": "image"
+          },
+          {
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "select",
+        "id": "css_animations",
+        "label": "CSS Animation",
+        "options": [
+          { "value": "1", "label": "None" },
+          { "value": "2", "label": "fadeIn" },
+          { "value": "3", "label": "fadeInDown" },
+          { "value": "4", "label": "fadeInDownBig" },
+          { "value": "5", "label": "fadeInLeft" },
+          { "value": "6", "label": "fadeInLeftBig" },
+          { "value": "7", "label": "fadeInRight" },
+          { "value": "8", "label": "fadeInRightBig" },
+          { "value": "9", "label": "fadeInUp" },
+          { "value": "10", "label": "fadeInUpBig" }
+        ],
+        "default": "2"
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      }
+    ],
+  	"blocks": [
+      {
+        "type": "text",
+        "name": "Add column text",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "HELLO SUMMER"
+          },
+          {
+            "type": "textarea",
+            "id": "text",
+            "label": "Text",
+            "default": "Aenean tincidunt justo eget purus pretium, nec malesuada nulla facilisis. Sed rutrum eros non nulla ornare, sed finibus libero bibendum. Vivamus risus o"
+          },
+          {
+            "type": "text",
+            "id": "button_name",
+            "label": "Button name",
+            "default": "Shop Now"
+          },
+          {
+            "type": "url",
+            "id": "button_link",
+            "label": "Button link"
+          }
+        ]
+      },
+      {
+        "type": "image",
+        "name": "Add column image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

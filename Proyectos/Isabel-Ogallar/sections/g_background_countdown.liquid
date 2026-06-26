@@ -1,0 +1,158 @@
+{%- case section.settings.use_width -%}
+    {% when '1' %}
+      	{%- assign width_countdown = 'g-fullwwidth' -%}
+    {% when '2' %}
+    	{%- assign width_countdown = 'container-full' -%}
+    {% when '3' %}
+    	{%- assign width_countdown = 'container' -%}
+{%- endcase -%}
+
+{%- case section.settings.css_animations -%}
+    {% when '1' %}
+      	{%- assign css_animations_class = '' -%}
+    {% when '2' %}
+    	{%- assign css_animations_class = 'wow fadeIn' -%}
+    {% when '3' %}
+    	{%- assign css_animations_class = 'wow fadeInDown' -%}
+    {% when '4' %}
+    	{%- assign css_animations_class = 'wow fadeInDownBig' -%}
+    {% when '5' %}
+    	{%- assign css_animations_class = 'wow fadeInLeft' -%}
+    {% when '6' %}
+    	{%- assign css_animations_class = 'wow fadeInLeftBig' -%}
+    {% when '7' %}
+    	{%- assign css_animations_class = 'wow fadeInRight' -%}
+    {% when '8' %}
+    	{%- assign css_animations_class = 'wow fadeInRightBig' -%}
+    {% when '9' %}
+    	{%- assign css_animations_class = 'wow fadeInUp' -%}
+    {% when '10' %}
+    	{%- assign css_animations_class = 'wow fadeInDown' -%}
+    {% when '11' %}
+    	{%- assign css_animations_class = 'wow fadeInUpBig' -%}
+{%- endcase -%}
+
+<div class="g-background-countdown {{ css_animations_class }}" {% if section.settings.margin != blank %}style="margin: {{ section.settings.margin }};"{% endif %}>
+  <div class="{{ width_countdown }}">
+    <div class="background-product-countdown cover-background lazy" {% if section.settings.image != blank %}data-src="{{ section.settings.image | img_url: '1920x', format: 'pjpg' | split:'?' | first }}"{% endif %}>
+      <div class="container">
+        {% if section.settings.title != blank %}
+        <div class="title-coundown">{{ section.settings.title }}</div>
+        {% endif %}
+        <div class="row">
+          <div class="col-sm-6 col-xs-12"></div>
+          <div class="col-sm-6 col-xs-12">
+            <div class="max-width-300">
+                {% if section.settings.text != blank %}
+                <p class="font-size-18">{{ section.settings.text }}</p>
+                {% endif %}              
+            	<div class="veera-countdown" {% if section.settings.end_date_countdown != blank %}data-end-date="{{ section.settings.end_date_countdown }}"{% endif %}></div>
+                {% if section.settings.button_name != blank %}
+                <a href="{{ section.settings.button_link }}" class="btn-border-banner">{{ section.settings.button_name }}</a>
+                {% endif %}
+            </div>
+          </div>
+          {% if section.settings.price != blank %}
+          <div class="price-countdown">
+            <span class="save--price">
+              {{ section.settings.price }}
+            </span>
+          </div>
+          {% endif %}
+        </div>
+      </div>    
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Background countdown",
+    "class": "globo_background_countdown",
+  	"presets": [
+      {
+        "name": "Background countdown",
+        "category": "Categories & Banner"
+      }
+    ],
+    "settings": [
+      {
+        "type": "select",
+        "id": "css_animations",
+        "label": "CSS Animation",
+        "options": [
+          { "value": "1", "label": "None" },
+          { "value": "2", "label": "fadeIn" },
+          { "value": "3", "label": "fadeInDown" },
+          { "value": "4", "label": "fadeInDownBig" },
+          { "value": "5", "label": "fadeInLeft" },
+          { "value": "6", "label": "fadeInLeftBig" },
+          { "value": "7", "label": "fadeInRight" },
+          { "value": "8", "label": "fadeInRightBig" },
+          { "value": "9", "label": "fadeInUp" },
+          { "value": "10", "label": "fadeInDown" },
+          { "value": "11", "label": "fadeInUpBig" }
+        ],
+        "default": "2"
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin: (top-right-bottom-left)",
+        "info": "Ex: 10px 0 30px 0"
+      },
+      {
+        "type": "select",
+        "id": "use_width",
+        "label": "Countdown width",
+        "options": [
+          { "value": "1", "label": "Use full width" },
+          { "value": "2", "label": "Use padding" },
+          { "value": "3", "label": "Use container" }
+        ],
+        "default": "1"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Background"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Deal of the Day"
+      },
+      {
+        "type": "text",
+        "id": "text",
+        "label": "Text",
+        "default": "Soft Black XL Leather"
+      },
+      {
+        "type": "text",
+        "id": "price",
+        "label": "Price",
+        "default": "<span class=\"only\">only<\/span><span>$49.99<\/span>"
+      },
+      {
+        "type": "text",
+        "id": "end_date_countdown",
+        "label": "End date countdown",
+        "default": "2019/10/29",
+        "info": "yyyy/mm/dd"
+      },
+      {
+        "type": "text",
+        "id": "button_name",
+        "label": "Button name",
+        "default": "Shop Now"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+      }
+    ]
+  }
+{% endschema %}

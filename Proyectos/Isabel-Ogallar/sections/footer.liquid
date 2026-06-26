@@ -1,0 +1,514 @@
+{% if settings.show_backtotop %}
+  <div class="backtotop-container show">
+    <a href="#PageContainer" class="ag-backtotop" aria-label="Volver arriba">
+      <i class="fa fa-angle-up"></i>
+    </a>
+  </div>
+{% endif %}
+
+{% if section.settings.show_footer %}
+<footer id="colophon" class="ag-footer">
+
+  <!-- ── BANDA SUPERIOR DECORATIVA ── -->
+  <div class="ag-footer-eyebrow">
+    <span class="ag-footer-eyebrow-line"></span>
+    <span class="ag-footer-eyebrow-brand">
+      <img src="{{ 'logo-ogallar.png' | asset_url }}" alt="Isabel Ogallar" style="max-height: 80px; width: auto; display: block;">
+    </span>
+    <span class="ag-footer-eyebrow-line"></span>
+  </div>
+
+  <!-- ── CUERPO PRINCIPAL ── -->
+  <div class="ag-footer-body">
+    <div class="container">
+      <div class="ag-footer-grid">
+
+        <!-- COL 1: Colecciones -->
+        <div class="ag-footer-col">
+          <h4 class="ag-footer-heading">Colecciones</h4>
+          <ul class="ag-footer-links">
+            {% for link in linklists[settings.main_linklist].links limit: 8 %}
+              {% assign link_title_downcase = link.title | downcase %}
+              {% unless link_title_downcase == 'isabel ogallar' or link_title_downcase == 'contacto' or link_title_downcase contains 'about' %}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endunless %}
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- COL 2: Información -->
+        <div class="ag-footer-col">
+          <h4 class="ag-footer-heading">Información</h4>
+          <ul class="ag-footer-links">
+            {% assign about_link = nil %}
+            {% for link in linklists[settings.main_linklist].links %}
+              {% assign link_title_downcase = link.title | downcase %}
+              {% if link_title_downcase contains 'about' or link_title_downcase == 'isabel ogallar' %}
+                {% assign about_link = link %}
+                {% break %}
+              {% endif %}
+            {% endfor %}
+            {% if about_link != nil %}
+              <li><a href="{{ about_link.url }}">{{ about_link.title }}</a></li>
+            {% else %}
+              <li><a href="/pages/sobre-nosotros">About Us</a></li>
+            {% endif %}
+            <li><a href="/pages/contacto">Contacto</a></li>
+            <li><a href="/pages/guia-de-tallas">Guía de tallas</a></li>
+          </ul>
+        </div>
+
+        <!-- COL 3: Políticas -->
+        <div class="ag-footer-col">
+          <h4 class="ag-footer-heading">Políticas</h4>
+          <ul class="ag-footer-links">
+            <li><a href="/policies/refund-policy">Devoluciones</a></li>
+            <li><a href="/policies/shipping-policy">Envíos</a></li>
+            <li><a href="/policies/privacy-policy">Política de privacidad</a></li>
+            <li><a href="/pages/politica-de-cookies">Política de cookies</a></li>
+            <li><a href="/policies/terms-of-service">Condiciones Generales</a></li>
+          </ul>
+        </div>
+
+        <!-- COL 4: Newsletter -->
+        <div class="ag-footer-col ag-footer-col--newsletter">
+          <h4 class="ag-footer-heading">Únete al Club</h4>
+          <p class="ag-footer-newsletter-text">CONOCE NUESTRAS NOVEDADES, COLECCIONES Y CONTENIDO EXCLUSIVO</p>
+          {% form 'customer', id: 'contact-form-footer-ag', class: 'ag-newsletter-form' %}
+            {{ form.errors | default_errors }}
+            {% if form.posted_successfully? %}
+            <p class="ag-newsletter-success">✓ Gracias por suscribirte.</p>
+            {% else %}
+            <div class="ag-newsletter-field">
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <input
+                type="email"
+                name="contact[email]"
+                id="Email-Footer-AG"
+                class="ag-newsletter-input"
+                value="{% if customer %}{{ customer.email }}{% endif %}"
+                placeholder="Tu correo electrónico"
+                autocorrect="off"
+                autocapitalize="off">
+              <button type="submit" class="ag-newsletter-btn" name="commit" id="Subscribe-Footer-AG">
+                <i class="fa fa-arrow-right"></i>
+              </button>
+            </div>
+            {% endif %}
+          {% endform %}
+        </div>
+
+      </div><!-- /.ag-footer-grid -->
+    </div><!-- /.container -->
+  </div><!-- /.ag-footer-body -->
+
+  <!-- ── REDES SOCIALES Y METODOS DE PAGO ── -->
+  <div class="ag-footer-extra">
+    <div class="container">
+      <!-- Redes Sociales (Iconos Grandes) -->
+      <h4 class="ag-footer-social-title">Síguenos</h4>
+      <div class="ag-footer-social-large">
+        {% if settings.social_instagram_link != blank %}
+        <a href="{{ settings.social_instagram_link | escape }}" title="Instagram" target="_blank" rel="nofollow" class="ag-social-link-large">
+          <i class="fa fa-instagram"></i>
+        </a>
+        {% endif %}
+        {% if settings.social_facebook_link != blank %}
+        <a href="{{ settings.social_facebook_link | escape }}" title="Facebook" target="_blank" rel="nofollow" class="ag-social-link-large">
+          <i class="fa fa-facebook"></i>
+        </a>
+        {% endif %}
+        {% if settings.social_pinterest_link != blank %}
+        <a href="{{ settings.social_pinterest_link | escape }}" title="Pinterest" target="_blank" rel="nofollow" class="ag-social-link-large">
+          <i class="fa fa-pinterest-p"></i>
+        </a>
+        {% endif %}
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- ── SEPARADOR ── -->
+  <div class="ag-footer-divider">
+    <div class="container">
+      <hr class="ag-footer-hr">
+    </div>
+  </div>
+
+  <!-- ── PIE INFERIOR ── -->
+  <div class="ag-footer-bottom">
+    <div class="container">
+      <div class="ag-footer-bottom-inner">
+        <p class="ag-footer-copyright">
+          &copy; {{ 'now' | date: '%Y' }} Isabel Ogallar. Todos los derechos reservados.
+        </p>
+      </div>
+      <!-- Métodos de pago -->
+      <div class="ag-footer-payments">
+        <ul class="ag-payment-icons-list">
+          {%- assign my_payment_types = 'visa,master,american_express,paypal,apple_pay,klarna,shopify_pay' | split: ',' -%}
+          {%- for type in my_payment_types -%}
+            <li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</footer>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_footer",
+        "label": "Show footer?",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_container",
+        "label": "Use container?",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "footer_bottom_layout",
+        "label": "Footer bottom layout",
+        "default": "1",
+        "options": [
+          {
+            "value": "1",
+            "label": "Layout 1"
+          },
+          {
+            "value": "2",
+            "label": "Layout 2"
+          },
+          {
+            "value": "3",
+            "label": "Layout 3"
+          }
+        ]
+      },
+      {
+        "type": "link_list",
+        "id": "footer_linklist",
+        "label": "Bottom menu",
+        "default": "footer",
+        "info": "This menu won't show dropdown items"
+      },
+      {
+        "type": "textarea",
+        "id": "copyright",
+        "label": "Copyright",
+        "default": "© 2018 Veera All rights reserved"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_payments",
+        "label": "Image payments"
+      }
+    ],
+    "max_blocks": 9,
+    "blocks": [
+      {
+        "type": "logo",
+        "name": "Add Logo & Text",
+        "settings": [
+         {
+            "type": "checkbox",
+            "id": "use_text_center",
+            "label": "Use content center?",
+            "default": true
+         },
+         {
+           "type": "image_picker",
+           "id": "logo_footer",
+           "label": "Custom logo",
+           "info": "134px wide .png recommended"
+         },
+         {
+            "type": "textarea",
+            "id": "text",
+            "label": "Text",
+          	"default": "Pellentesque mollis nec orci id tincidunt. Sed mollis risus eu nisi aliquet, sit amet fermentum justo dapibus."
+         },
+         {
+            "type": "select",
+            "id": "width",
+            "label": "Container width",
+            "default": "33.33333%",
+            "options": [
+              {
+                "value": "calc((100%-(180px*3))/2)",
+                "label": "calc((100%-(180px*3))/2)"
+              },
+              {
+                "value": "180px",
+                "label": "180px"
+              },
+              {
+                "value": "16.66667%",
+                "label": "16.66667%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33.33333%",
+                "label": "33.33333%"
+              },
+              {
+                "value": "41.66667%",
+                "label": "41.66667%"
+              },
+              {
+                "value": "50%",
+                "label": "50%"
+              },
+              {
+                "value": "100%",
+                "label": "100%"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "name": "Footer Text",
+        "settings": [
+           {
+              "type": "text",
+              "id": "title",
+              "label": "Heading",
+              "default": "Contact Us"
+           },
+           {
+              "type": "textarea",
+              "id": "text",
+              "label": "Text",
+              "default": "<a href=\"tel:+61225315600\">(+612) 2531 5600</a><br><a href=\"mailto:contact@globosoftware.net\">info@la-studioweb.com</a><br> PO Box 1622 Colins Street West<br>Victoria 8077 Australia"
+           },
+           {
+              "type": "select",
+              "id": "width",
+              "label": "Container width",
+              "default": "33.33333%",
+              "options": [
+                {
+                  "value": "calc((100%-(180px*3))/2)",
+                  "label": "calc((100%-(180px*3))/2)"
+                },
+                {
+                  "value": "180px",
+                  "label": "180px"
+                },
+                {
+                  "value": "16.66667%",
+                  "label": "16.66667%"
+                },
+                {
+                  "value": "25%",
+                  "label": "25%"
+                },
+                {
+                  "value": "33.33333%",
+                  "label": "33.33333%"
+                },
+                {
+                  "value": "41.66667%",
+                  "label": "41.66667%"
+                },
+                {
+                  "value": "50%",
+                  "label": "50%"
+                },
+                {
+                  "value": "100%",
+                  "label": "100%"
+                }
+              ]
+            }
+        ]
+      },
+      {
+        "type": "menu",
+        "name": "Add Menu",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Quick links"
+          },
+          {
+            "type": "link_list",
+            "id": "menu",
+            "label": "Add menu"
+          },
+          {
+            "type": "checkbox",
+            "id": "use_text_center",
+            "label": "Use content center?",
+            "default": false
+          },
+          {
+            "type": "checkbox",
+            "id": "show_menu_horizontal",
+            "label": "Use menu horizontal?",
+			"default": false
+          },
+          {
+            "type": "select",
+            "id": "width",
+            "label": "Container width",
+            "default": "25%",
+            "options": [
+              {
+                "value": "calc((100%-(180px*3))/2)",
+                "label": "calc((100%-(180px*3))/2)"
+              },
+              {
+                "value": "180px",
+                "label": "180px"
+              },
+              {
+                "value": "16.66667%",
+                "label": "16.66667%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33.33333%",
+                "label": "33.33333%"
+              },
+              {
+                "value": "41.66667%",
+                "label": "41.66667%"
+              },
+              {
+                "value": "50%",
+                "label": "50%"
+              },
+              {
+                "value": "100%",
+                "label": "100%"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "newsletter",
+        "name": "Add Newsletter & Social",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Join Our Newsletter"
+          },
+          {
+            "type": "select",
+            "id": "width",
+            "label": "Container width",
+            "default": "25%",
+            "options": [
+              {
+                "value": "calc((100%-(180px*3))/2)",
+                "label": "calc((100%-(180px*3))/2)"
+              },
+              {
+                "value": "180px",
+                "label": "180px"
+              },
+              {
+                "value": "16.66667%",
+                "label": "16.66667%"
+              },
+              {
+                "value": "25%",
+                "label": "25%"
+              },
+              {
+                "value": "33.33333%",
+                "label": "33.33333%"
+              },
+              {
+                "value": "41.66667%",
+                "label": "41.66667%"
+              },
+              {
+                "value": "50%",
+                "label": "50%"
+              },
+              {
+                "value": "100%",
+                "label": "100%"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "social",
+        "name": "Add Social",
+        "settings": [
+           {
+              "type": "select",
+              "id": "width",
+              "label": "Container width",
+              "default": "33.33333%",
+              "options": [
+                {
+                  "value": "calc((100%-(180px*3))/2)",
+                  "label": "calc((100%-(180px*3))/2)"
+                },
+                {
+                  "value": "180px",
+                  "label": "180px"
+                },
+                {
+                  "value": "16.66667%",
+                  "label": "16.66667%"
+                },
+                {
+                  "value": "25%",
+                  "label": "25%"
+                },
+                {
+                  "value": "33.33333%",
+                  "label": "33.33333%"
+                },
+                {
+                  "value": "41.66667%",
+                  "label": "41.66667%"
+                },
+                {
+                  "value": "50%",
+                  "label": "50%"
+                },
+                {
+                  "value": "100%",
+                  "label": "100%"
+                }
+              ]
+            }
+        ]
+      }
+	]
+  }
+{% endschema %}
+

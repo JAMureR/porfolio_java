@@ -1,0 +1,481 @@
+<style>
+  /* Solo tipografía global — el layout del nav se gestiona al final del archivo */
+  body, h1, h2, h3, h4, h5, h6, .site-header-inner, .dl-menu, .heading, .title, p, span, a {
+    font-family: 'Montserrat', sans-serif !important;
+  }
+</style>
+<header class="main-section-header site-header">
+  <div class="header-content">
+    {% if settings.show_header_top %}
+    <div class="header-top">
+      <div class="container-full">
+        <div class="row">
+          <div class="col-sm-4 col-xs-12 left-top-header">
+            {% if settings.header_top_content != blank %}
+            {{ settings.header_top_content }}
+            {% endif %}
+          </div>
+          <div class="col-sm-4 col-xs-12 middle-top-header">
+            {% if settings.header_middle_content != blank %}
+            {{ settings.header_middle_content }}
+            {% endif %}
+          </div>
+          <div class="col-sm-4 col-xs-12 right-top-header">
+            {% if settings.show_multiple_currencies %}
+            <div class="pull-right top-dropdown currency">
+              {% include 'currency-picker' %}
+              <i class="fa fa-angle-down"></i>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% if settings.use_header_sticky %}<div class="header-sticky">{% endif %}
+
+      {% comment %} TOP BAR {% endcomment %}
+      {% if settings.header_use_topbar or settings.campaign_direct_discount_enabled %}
+        {% include 'header.top-bar' %}
+      {% endif %}
+
+      <div class="container-full">
+        <div class="header-main">
+          <div class="row">
+            <div class="col-sm-3 col-xs-6 header-left">
+              <div class="logo">
+                {% if settings.logo %}
+                <a href="/" itemprop="url" rel="home">
+                  <figure class="logo--normal"><img src="{{ 'logo-ogallar.png' | asset_url }}" alt="{{ settings.logo.alt | default: shop.name }}" itemprop="logo"></figure>
+                  <figure class="logo--transparency"><img src="{{ 'logo-ogallar.png' | asset_url }}" alt="{{ settings.logo.alt | default: shop.name }}" itemprop="logo"></figure>
+                </a>
+                {% else %}
+                <a href="/" itemprop="url">{{ shop.name }}</a>
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-sm-7 col-xs-6 header-middle">
+              <div class="header-component-inner clearfix">
+                <ul class="main-menu">
+                  {% for link in linklists[settings.main_linklist].links %}
+                  {%- assign child_list_handle = link.title | handleize -%}
+                  {% assign cat = link.title | downcase %}
+                  {% if linklists[link.handle] != empty %}
+                  {% assign sub_menu_col = '' %}
+                  {% for sublinks in linklists[link.handle].links %}
+                  {% if linklists[sublinks.handle].links.size > 0 %}
+                  {% if linklists[link.handle].links.size > 4 %}
+                  {% assign sub_menu_col = 4 %}
+                  {% else %}
+                  {% assign sub_menu_col = linklists[link.handle].links.size %}
+                  {% endif %}
+                  {% endif %}
+                  {% endfor %}
+                  {% endif %}
+                  {% if items_list_1 contains cat %}
+                  <li class="menu-item {% if sub_menu_col != blank %} mm-popup-has-image mm-popup-column mm-popup-column-{{ sub_menu_col }}{% else %} mmenu-relative{% endif %}{% if link.active %} active{% endif %}{% if items_list_1 contains cat or items_list_2 contains cat or linklists[link.handle] != empty %} menu-columns-parent{% endif %}" >
+                    <a href="{{ link.url }}">
+                      <span class="mm-text">{{ link.title }}</span>
+                      {% if items_list_new contains cat %}
+                      <span class="cat-label cat-label-label1 pin-bottom">New</span>
+                      {% elsif items_list_hot contains cat %}
+                      <span class="cat-label cat-label-label2 pin-bottom">Hot</span>
+                      {% endif %}
+                    </a>
+                    {% if linklists[child_list_handle].links != blank %}
+                    <div class="popup">
+                      <div class="inner">
+                        <ul class="sub-menu">
+                          {% for sublink in linklists[link.handle].links %}
+                          <li class="menu-item menu-item-type-custom menu-item-object-custom {% if sub_menu_col != blank %}column-1{% endif %}">
+                            <a href="{{ sublink.url }}"><span class="mm-text">{{ sublink.title }}</span></a>
+                            {% if linklists[sublink.handle] != empty %}
+                            <ul class="sub-menu">
+                              {% for subsublink in linklists[sublink.handle].links %}
+                              <li class="menu-item menu-item-type-post_type menu-item-object-page {% if forloop.first %} first{% endif %}{% if forloop.last %} last{% endif %}">
+                                <a href="{{ subsublink.url }}"><span class="mm-text">{{ subsublink.title }}</span></a>
+                              </li>
+                              {% endfor %}
+                            </ul>
+                            {% endif %}
+                          </li>
+                          {% endfor %}
+                          <li class="menu-item-image menu-item menu-item-type-custom menu-item-object-custom {% if sub_menu_col == 4 %}column-2{% endif %}">
+                            {% capture mega_image %}megamenuimage{{ megamenu_image_index }}.png{% endcapture %}
+                            {% capture mega_links_image %}megamenulinksimage{{ megamenu_links_image_index }}{% endcapture %}
+                            {% assign megalinksimage = settings[mega_links_image] %}
+                            <a href="{{ megalinksimage }}"><img src="{{ mega_image | asset_url }}" alt="" /></a>
+                            {% assign megamenu_image_index = megamenu_image_index | plus:1 %}
+                            {% assign megamenu_links_image_index = megamenu_links_image_index | plus:1 %}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    {% endif %}
+                  </li>
+                  {% elsif items_list_2 contains cat %}
+                  <li class="menu-item menu-columns-parent menu-from-page {% if link.active %} active{% endif %}">
+                    <a href="{{ link.url }}">
+                      <span class="mm-text">{{ link.title }}</span>
+                      {% if items_list_new contains cat %}
+                      <span class="cat-label cat-label-label1 pin-bottom">New</span>
+                      {% elsif items_list_hot contains cat %}
+                      <span class="cat-label cat-label-label2 pin-bottom">Hot</span>
+                      {% endif %}
+                    </a>
+                    <div class="popup">
+                      <div class="inner">
+                        {% if megamenu_content_index == 1 %}
+                        {{ pages[settings.megamenupage1].content }}
+                        {% endif %}
+                        {% if megamenu_content_index == 2 %}
+                        {{ pages[settings.megamenupage2].content }}
+                        {% endif %}
+                        {% if megamenu_content_index == 3 %}
+                        {{ pages[settings.megamenupage3].content }}
+                        {% endif %}
+                        {% assign megamenu_content_index = megamenu_content_index | plus:1 %}
+                      </div>
+                    </div>
+                  </li>
+                  {% else %}
+                  <li class="menu-item {% if sub_menu_col == 4 %}column-not-image{% endif %} {% if sub_menu_col != blank %} mm-popup-column mm-popup-column-{{ sub_menu_col }}{% else %} mmenu-relative{% endif %}{% if link.active %} active{% endif %}{% if items_list_1 contains cat or items_list_2 contains cat or linklists[link.handle] != empty %} menu-columns-parent{% endif %}">
+                    <a href="{{ link.url }}">
+                      <span class="mm-text">{{ link.title }}</span>
+                      {% if items_list_new contains cat %}
+                      <span class="cat-label cat-label-label1 pin-bottom">New</span>
+                      {% elsif items_list_hot contains cat %}
+                      <span class="cat-label cat-label-label2 pin-bottom">Hot</span>
+                      {% endif %}
+                    </a>
+                    {% if linklists[child_list_handle].links != blank %}
+                    <div class="popup">
+                      <div class="inner">
+                        <ul class="sub-menu">
+                          {% for sublink in linklists[link.handle].links %}
+                          <li class="menu-item menu-item-type-custom menu-item-object-custom {% if sub_menu_col != blank %}column-1{% endif %}">
+                            <a href="{{ sublink.url }}"><span class="mm-text">{{ sublink.title }}</span></a>
+                            {% if linklists[sublink.handle] != empty %}
+                            <ul class="sub-menu">
+                              {% for subsublink in linklists[sublink.handle].links %}
+                              <li class="menu-item menu-item-type-post_type menu-item-object-page {% if forloop.first %} first{% endif %}{% if forloop.last %} last{% endif %}">
+                                <a href="{{ subsublink.url }}"><span class="mm-text">{{ subsublink.title }}</span></a>
+                              </li>
+                              {% endfor %}
+                            </ul>
+                            {% endif %}
+                          </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </div>
+                    {% endif %}
+                  </li>
+                  {% endif %}
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+            <div class="col-sm-2 col-xs-6 header-right">
+              <div class="header-component-inner clearfix">
+                <div class="header_component header_component--searchbox la_compt_iem la_com_action--searchbox searchbox__01">
+                  <a class="component-target btn-search" href="javascript:;"><i class="dl-icon-search1"></i></a>
+                </div>
+                <div class="header_component header_component--linktext la_compt_iem la_com_action--linktext">
+                  {% if shop.customer_accounts_enabled %}
+                  {% if customer %}
+                  <a rel="nofollow" class="component-target" href="/account" title="{{ 'customer.account.title' | t }}">
+                    <i class="fa fa-user"></i>
+                  </a>
+                  <a rel="nofollow" class="component-target" href="/account/logout" title="{{ 'customer.account.logout' | t }}"><i class="fa fa-sign-out"></i></a>
+                  {% else %}
+                  <a rel="nofollow" class="component-target" href="/account/login" title="{{ 'customer.account.title' | t }}"><i class="fa fa-user"></i></a>
+                  {% endif %}
+                  {% endif %}
+                </div>
+                <div class="header_component header_component--cart la_compt_iem la_com_action--cart ">
+                  <a rel="nofollow" class="component-target" href="/cart">
+                    <i class="fa fa-shopping-cart"></i><span class="component-target-badget la-cart-count">{{ cart.item_count }}</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% if settings.use_header_sticky %}</div>{% endif %}
+  </div>
+</header>
+
+<aside id="header_aside" class="header--aside">
+    <div class="header-aside-wrapper">
+        <a class="btn-aside-toggle" href="#"><i class="dl-icon-close"></i></a>
+        <div class="header-aside-inner">
+            <div class="header-widget-bottom">
+              	{% if settings.logo_header_aside != blank %}
+                <div class="widget widget_text">
+                    <div class="textwidget">
+                        <p>
+                            <a href="/"><img src="{{ settings.logo_header_aside | img_url: 'master' | split:'?' | first }}" alt="{{ settings.logo_header_aside.alt | default: shop.name }}"></a>
+                        </p>
+                    </div>
+                </div>
+              	{% endif %}
+              	{% if settings.text_header_aside != blank %}
+                <div class="widget widget_text">
+                    <div class="textwidget">
+                      	{{ settings.text_header_aside }}
+                    </div>
+                </div>
+              	{% endif %}
+              	{% if settings.img_header_aside != blank %}
+                <div class="padding-top-30 widget widget_media_image">
+                    <a href="/"><img src="{{ settings.img_header_aside | img_url: '360x360' | split:'?' | first }}" class="size-full" alt="{{ settings.img_header_aside.alt }}"></a>
+                </div>
+              	{% endif %}
+                <div class="padding-top-30 widget widget_text">
+                    <div class="textwidget">
+                      	{% if settings.contact_info_header_aside != blank %}
+                        	{{ settings.contact_info_header_aside }}
+                        {% endif %}
+                      	{% if settings.show_social_header_aside  %}
+                      	<div class="social-media-link style-default">
+                          {% if settings.social_facebook_link != blank %}
+                          	<a href="{{ settings.social_facebook_link | escape }}" class="facebook" title="Facebook" target="_blank" rel="nofollow"><i class="fa fa-facebook"></i></a>
+                          {% endif %}
+                          {% if settings.social_twitter_link != blank %}
+                          	<a href="{{ settings.social_twitter_link | escape }}" class="twitter" title="Twitter" target="_blank" rel="nofollow"><i class="fa fa-twitter"></i></a>
+                          {% endif %}
+                          {% if settings.social_pinterest_link != blank %}
+                          	<a href="{{ settings.social_pinterest_link | escape }}" class="pinterest" title="Pinterest" target="_blank" rel="nofollow"><i class="fa fa-pinterest-p"></i></a>
+                          {% endif %}
+                          {% if settings.social_instagram_link != blank %}
+                          	<a href="{{ settings.social_instagram_link | escape }}" class="instagram" title="Instagram" target="_blank" rel="nofollow"><i class="fa fa-instagram"></i></a>
+                          {% endif %}
+                          {% if settings.social_behance_link != blank %}
+                          	<a href="{{ settings.social_behance_link | escape }}" class="behance" title="Behance" target="_blank" rel="nofollow"><i class="fa fa-behance"></i></a>
+                          {% endif %}
+                          {% if settings.social_tumblr_link != blank %}
+                          	<a href="{{ settings.social_tumblr_link | escape }}" class="tumblr" title="Tumblr" target="_blank" rel="nofollow"><i class="fa fa-tumblr"></i></a>
+                          {% endif %}
+                          {% if settings.social_snapchat_link != blank %}
+                          	<a href="{{ settings.social_snapchat_link | escape }}" class="snapchat" title="Snapchat" target="_blank" rel="nofollow"><i class="fa fa-snapchat"></i></a>
+                          {% endif %}
+                          {% if settings.social_youtube_link != blank %}
+                          	<a href="{{ settings.social_youtube_link | escape }}" class="youtube" title="Youtube" target="_blank" rel="nofollow"><i class="fa fa-youtube"></i></a>
+                          {% endif %}
+                          {% if settings.social_vimeo_link != blank %}
+                          	<a href="{{ settings.social_vimeo_link | escape }}" class="vimeo" title="Vimeo" target="_blank" rel="nofollow"><i class="fa fa-vimeo"></i></a>
+                          {% endif %}
+                        </div>
+                      	{% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- AG PREMIUM: Layout definitivo del header — carga al final para máxima prioridad -->
+<style>
+  /* ============================================================
+     3-ZONE HEADER: Logo | Menú | Iconos
+     Este bloque carga después de Bootstrap y ag-premium.css,
+     por lo que tiene máxima prioridad sin necesitar !important.
+     ============================================================ */
+  @media (min-width: 992px) {
+
+    /* 1. Convertir la fila Bootstrap en un grid de 3 celdas */
+    .header-main > .row {
+      display: grid !important;
+      grid-template-columns: auto 1fr auto !important;
+      align-items: center !important;
+      flex-wrap: unset !important;
+      /* Anular márgenes negativos de Bootstrap .row */
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+    .header-main > .row::before,
+    .header-main > .row::after {
+      display: none !important;
+    }
+
+    /* 2. Zona Logo — celda 1, ancho natural y logo fluido */
+    .header-left {
+      grid-column: 1 !important;
+      grid-row: 1 !important;
+      float: none !important;
+      width: auto !important;
+      max-width: none !important;
+      padding-left: 0 !important;
+      padding-right: clamp(8px, 1.2vw, 20px) !important;
+    }
+    /* El logo tiene un tamaño fijo y mucho más grande */
+    .header-left .logo img,
+    .header-left .logo figure img {
+      height: 90px !important;
+      max-height: 90px !important;
+      min-height: 90px !important;
+      width: auto !important;
+      max-width: none !important;
+      flex-shrink: 0 !important;
+      object-fit: contain;
+      margin-top: 3px !important;
+      margin-bottom: 3px !important;
+    }
+    
+    .header-left .logo a {
+      height: 96px !important;
+      display: flex !important;
+      align-items: center !important;
+    }
+
+    /* 3. Zona Menú — celda 2, arranca desde la izquierda junto al logo */
+    .header-middle {
+      grid-column: 2 !important;
+      grid-row: 1 !important;
+      float: none !important;
+      width: auto !important;
+      max-width: none !important;
+      min-width: 0 !important;
+      padding: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      overflow: hidden !important;
+    }
+
+    /* 4. Zona Iconos — celda 3, ancho natural, padding mínimo */
+    .header-right {
+      grid-column: 3 !important;
+      grid-row: 1 !important;
+      float: none !important;
+      width: auto !important;
+      max-width: none !important;
+      padding-right: 0 !important;
+      padding-left: clamp(6px, 0.8vw, 12px) !important;
+    }
+
+    /* 5. El clearfix dentro de header-middle no debe interferir */
+    .header-middle .header-component-inner {
+      width: 100% !important;
+      display: flex !important;
+      justify-content: flex-start !important;
+      align-items: center !important;
+      overflow: hidden !important;
+    }
+
+    /* 6. La lista del menú: flex anclado a la izquierda */
+    .header-middle .main-menu {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      width: 100% !important;
+      overflow: hidden !important;
+      gap: clamp(6px, 1.2vw, 20px) !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      list-style: none !important;
+    }
+
+    /* 7. Cada ítem puede encogerse, nunca se desborda hacia afuera */
+    .header-middle .main-menu > li.menu-item {
+      flex-shrink: 1 !important;
+      min-width: 0 !important;
+      white-space: nowrap !important;
+    }
+  }
+
+  /* Tipografía e interacción del menú */
+  .header-middle .main-menu > li.menu-item > a {
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: clamp(7px, 0.9vw, 11px) !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    letter-spacing: clamp(0.4px, 0.09vw, 1.4px) !important;
+    color: #3A2E28 !important;
+    position: relative !important;
+    padding: 8px 0 !important;
+    transition: color 0.3s ease !important;
+    background: transparent !important;
+    white-space: nowrap !important;
+    display: block !important;
+  }
+  .header-middle .main-menu > li.menu-item > a:hover {
+    color: #A88D59 !important;
+  }
+  .header-middle .main-menu > li.menu-item > a::after {
+    content: '' !important;
+    position: absolute !important;
+    width: 0 !important;
+    height: 1px !important;
+    bottom: 2px !important;
+    left: 50% !important;
+    background-color: #A88D59 !important;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    transform: translateX(-50%) !important;
+  }
+  .header-middle .main-menu > li.menu-item:hover > a::after {
+    width: 100% !important;
+  }
+
+  /* Iconos de la derecha */
+  .header-right .header-component-inner {
+    display: flex !important;
+    gap: 16px !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+  }
+  .header-right i.fa,
+  .header-right i.dl-icon-search1 {
+    font-size: 17px !important;
+    color: #3A2E28 !important;
+    transition: color 0.3s ease, transform 0.3s ease !important;
+  }
+  .header-right a:hover i {
+    color: #A88D59 !important;
+    transform: scale(1.1) !important;
+  }
+</style>
+
+<!-- AG PREMIUM: Transparent Nav — Solo gestiona .ag-nav-scrolled -->
+<script>
+(function () {
+  'use strict';
+
+  function initNavEffect() {
+    if (!document.body.classList.contains('template-index')) return;
+
+    var siteHeader   = document.querySelector('.site-header');
+    var mobileHeader = document.querySelector('.site-header-mobile');
+
+    function onScroll() {
+      var scrolled = (window.pageYOffset || document.documentElement.scrollTop || 0) > 0;
+      if (siteHeader)   { siteHeader.classList.toggle('ag-nav-scrolled', scrolled); }
+      if (mobileHeader) { mobileHeader.classList.toggle('ag-nav-scrolled', scrolled); }
+    }
+
+    // Estado inicial
+    onScroll();
+
+    // Re-check en window load por si el sticky arranca tarde
+    window.addEventListener('load', onScroll, { passive: true });
+
+    // Listener scroll
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(function () { onScroll(); ticking = false; });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNavEffect);
+  } else {
+    initNavEffect();
+  }
+})();
+</script>

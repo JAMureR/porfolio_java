@@ -1,0 +1,6 @@
+package com.ironforge.backend.model;
+
+public enum Role {
+    USER,
+    ADMIN
+}

@@ -1,0 +1,21 @@
+{% assign collection_url = collections[settings.header_use_topbar_collection].url %}
+<div id="topbar">
+    <a href="{{collection_url}}">
+        <div class="container row">
+            {% if settings.header_use_topbar_campaign_icon != black %}
+            <div class="icon">
+                <i class="fa {{ settings.header_use_topbar_campaign_icon }}" aria-hidden="true"></i>
+            </div>
+            {% endif %}
+            {% if settings.header_use_topbar_campaign_name != blank %}
+            <div class="title">
+                {{ settings.header_use_topbar_campaign_name }}:
+            </div>
+            {% endif %}
+            <div class="string">
+                {{ settings.header_use_topbar_campaign_string }}
+            </div>
+        </div>
+    </a>
+    <div class="background" style="background-color: {% if settings.header_use_topbar_background_color == "gold" %} #d1a77e {% elsif  settings.header_use_topbar_background_color == "black" %} #0d0d0d {% endif %}"></div>
+</div>

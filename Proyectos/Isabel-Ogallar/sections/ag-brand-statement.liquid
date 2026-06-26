@@ -1,0 +1,108 @@
+<div class="ag-brand-statement-wrapper">
+  <div class="ag-brand-statement">
+    {% if section.settings.heading != blank %}
+      <h2 class="ag-brand-title">{{ section.settings.heading }}</h2>
+    {% endif %}
+    
+    {% if section.settings.subheading != blank %}
+      <p class="ag-brand-subtitle">{{ section.settings.subheading }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  .ag-brand-statement-wrapper {
+    background-color: var(--ag-bg-color);
+    padding: 0;
+    margin-top: -80px; /* Pulls the section up to counteract the slideshow's default 90px bottom margin */
+    position: relative;
+    z-index: 10;
+    width: 100%;
+  }
+  
+  @media screen and (max-width: 991px) {
+    .ag-brand-statement-wrapper {
+      margin-top: -30px !important;
+      padding-top: 15px !important;
+    }
+  }
+  
+  @media screen and (max-width: 749px) {
+    .ag-brand-statement-wrapper {
+      margin-top: -40px !important;
+      padding-top: 15px !important;
+    }
+  }
+  
+  .ag-brand-statement {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .ag-brand-title {
+    font-family: var(--ag-font-heading) !important;
+    font-size: clamp(20px, 4.5vw,25px) !important; /* Reduced size */
+    font-weight: 400 !important;
+    font-style: italic !important; /* Fully italicized like the reference image */
+    color: var(--ag-text-color) !important;
+    margin-top: 20px !important; /* 10px top margin */
+    margin-bottom: 6px !important; /* Reduced to 6px to minimize space between title and subtitle */
+    letter-spacing: 0.02em !important;
+    line-height: 1.2 !important;
+    text-transform: none; 
+  }
+  
+  /* Adds the italic effect seen in the reference image (e.g. for "repeat" / "ALMA") */
+  .ag-brand-title em,
+  .ag-brand-title i {
+    font-style: italic !important;
+    font-family: var(--ag-font-heading) !important;
+  }
+  
+  .ag-brand-subtitle {
+    font-family: var(--ag-font-body) !important;
+    font-size: clamp(13px, 1.5vw, 10px) !important;
+    font-weight: 300 !important;
+    color: var(--ag-text-color) !important;
+    letter-spacing: 0.03em !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "AG Brand Statement",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "SEDA, MOVIMIENTO Y <em>ALMA</em>",
+      "info": "You can use <em>word</em> to make a word italic."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Diseños exclusivos confeccionados en España"
+    }
+  ],
+  "presets": [
+    {
+      "name": "AG Brand Statement",
+      "category": "AG Premium",
+      "settings": {
+        "heading": "SEDA, MOVIMIENTO Y <em>ALMA</em>",
+        "subheading": "Diseños exclusivos confeccionados en España"
+      }
+    }
+  ]
+}
+{% endschema %}
