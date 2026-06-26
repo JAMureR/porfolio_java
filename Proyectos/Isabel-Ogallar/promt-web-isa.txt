@@ -1,8 +1,0 @@
-- tienda de moda
--coockies
--login de usuarios con carrito de la compra 
--login de administrador e intefaz para subir nuevos productos de forma rápida y visual
--categorías NUEVA COLECCIÓN CHAQUETAS/PANTALONES FALDAS VESTIDOS TOPS ISABEL OGALLAR CONTACTO y una lupa para el buscador icono de usario para el login y carrito
-- apartado para hero con imágenes y justo debajo apartado de categoría nueva colección con imágenes 
--
-
